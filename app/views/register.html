@@ -1,0 +1,16 @@
+<div>
+  <h2>Register</h2>
+  <p class="alert alert-error" ng-show="error">{{error}}</p>
+  <form ng-submit="register()">
+    <div class="form-group">
+      <input type="text" ng-model="user.name" placeholder="name" class="form-control">
+    </div>
+    <div class="form-group">
+      <input type="text" ng-model="user.email" placeholder="email address" class="form-control">
+    </div>
+    <div class="form-group">
+      <input type="password" ng-model="user.password" placeholder="password" class="form-control">
+    </div>
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
+</div>

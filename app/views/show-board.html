@@ -1,0 +1,34 @@
+<h1>{{board.title}}</h1>
+<p>{{board.description}}</p>
+<ul ng-repeat="list in lists">
+  <li>{{list.name}}</li>
+    <ul ng-repeat="card in list.cards">
+      <li>
+        <h6>{{card.name}}</h6>
+        <p>{{card.description}}</p>
+      </li>
+    </ul>
+    <ul>
+      <li>
+        <form ng-submit="addCard(list)">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="New Card" ng-model="card.name">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Description..." ng-model="card.description">
+          </div>
+          <input type="submit" class="btn btn-primary" value="Add Card">
+        </form>
+      </li>
+    </ul>
+</ul>
+<ul>
+  <li>
+    <form ng-submit="addList()">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="New List" ng-model="list.name">
+      </div>
+      <input type="submit" class="btn btn-primary" value="Add List">
+    </form>
+  </li>
+</ul>
