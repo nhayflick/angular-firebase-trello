@@ -12,10 +12,10 @@
       <li>
         <form ng-submit="addCard(list)">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="New Card" ng-model="card.name">
+            <input type="text" class="form-control" placeholder="New Card" ng-model="list.card.name">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Description..." ng-model="card.description">
+            <input type="text" class="form-control" placeholder="Description..." ng-model="list.card.description">
           </div>
           <input type="submit" class="btn btn-primary" value="Add Card">
         </form>
