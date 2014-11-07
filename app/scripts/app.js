@@ -19,7 +19,8 @@ var app = angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'firebase'
+    'firebase',
+    'ngMockE2E'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -52,4 +53,68 @@ var app = angular
       .otherwise({
         redirectTo: '/'
       });
-  }).constant('FIREBASE_URL', 'https://fiery-heat-4015.firebaseio.com/');
+  }).constant('FIREBASE_URL', 'https://fiery-heat-4015.firebaseio.com/')
+  .run(function($httpBackend) {
+    /*jshint camelcase: false */
+    var boards = [{
+      id: 1, 
+      name: 'Paris Trip', 
+      description: 'Ball so hard...',
+      user_id: 1
+    }];
+    var lists = [{
+      id: 1, 
+      name: 'To Do', 
+      description: 'So much to do, so little time', 
+      board_id: 1
+    },{
+      id: 2, 
+      name: 'Doing', 
+      board_id: 2
+    }];
+    var cards = [{
+      id: 1, 
+      name: 'Order Fish Fillet', 
+      list_id: 1
+    }, {
+      id: 2, 
+      name: 'Wait for Croissants', 
+      description: 'Seems to be taking longer than expected',
+      list_id: 2
+    }];
+    var users = [{
+      id: 1, 
+      name: 'Kanye West', 
+    }, {
+      id: 2, 
+      name: 'Jay-Z', 
+    }];
+    $httpBackend.whenGET('/boards').respond(boards);
+    $httpBackend.whenGET('/lists').respond(lists);
+    $httpBackend.whenGET('/cards').respond(cards);
+    $httpBackend.whenGET('/users').respond(users);
+
+    // adds a new board to the boards array
+    $httpBackend.whenPOST('/boards').respond(function(method, url, data) {
+      var board = angular.fromJson(data);
+      boards.push(board);
+      return [200, board, {}];
+    });
+    $httpBackend.whenPOST('/lists').respond(function(method, url, data) {
+      var list = angular.fromJson(data);
+      lists.push(list);
+      return [200, list, {}];
+    });
+    $httpBackend.whenPOST('/cards').respond(function(method, url, data) {
+      var card = angular.fromJson(data);
+      cards.push(card);
+      return [200, card, {}];
+    });
+
+
+
+    // takes away an old board
+
+    $httpBackend.whenGET(/views\/\w+.*/).passThrough();
+    //...
+  });
