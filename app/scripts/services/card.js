@@ -2,27 +2,26 @@
 
 /**
  * @ngdoc service
- * @name angularFirebaseTrelloApp.list
+ * @name angularFirebaseTrelloApp.Card
  * @description
- * # list
+ * # Card
  * Factory in the angularFirebaseTrelloApp.
  */
-app.factory('List', function ($firebase, FIREBASE_URL) {
+app.factory('Card', function ($firebase, FIREBASE_URL) {
 	// Service logic
 	var ref = new Firebase(FIREBASE_URL);
-	var List = {
-		all: function (boardId) {
+
+	var Card = {
+		all: function () {
 			// Access a synced array representing a collection of Firebase objects
-			return $firebase(ref.child('lists').child(boardId)).$asArray();
+			return $firebase(ref.child('card')).$asArray();
 		},
-		cards: function (listId) {
+		users: function (cardId) {
 			// Access a synced array representing a collection of Firebase objects
-			return $firebase(ref.child('list/' + listId + '/cards')).$asArray();
+			return $firebase(ref.child('card').child(cardId).child('users')).$asArray();
 		}
 	};
 
-
-
 	// Public API here
-	return List;
+	return Card;
 });

@@ -7,14 +7,20 @@
  * # ShowBoardCtrl
  * Controller of the angularFirebaseTrelloApp
  */
-app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Authenticate) {
+app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Card, Authenticate, User) {
 	$scope.board = Board.get($routeParams.boardId);
+	$scope.users = User.all();
 	$scope.lists = Board.lists($routeParams.boardId);
 	// When lists API call is returned succesfully, query for cards 
 	$scope.lists.$loaded().then(function () {
-		angular.forEach($scope.lists, function (obj) {
-			// N+1 query here is bad
-			obj.cards = List.cards(obj.$id);
+		angular.forEach($scope.lists, function (list) {
+			// N+1 query = bad
+			list.cards = List.cards(list.$id);
+			list.cards.$loaded().then(function () {
+				angular.forEach(list.cards, function (card) {
+					card.users = Card.users(card.$id);
+				});
+			});
 		});
 	});
 
@@ -24,13 +30,19 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Aut
 			creatorUID: Authenticate.user.uid,
 			cards: false
 		};
-		console.log(list);
-		$scope.lists.$add(list);
+		$scope.lists.$add(list).then(function () {
+			// N+1 query = bad
+			list.cards = List.cards(list.$id);
+			// list.cards.$loaded().then(function (p) {
+			// 	console.log(p);
+			// 	list.cards = List.cards(list.$id);
+			// });
+		});
 		$scope.list.name = '';
 	};
 	// Create a task card and add it to a list
 	$scope.addCard = function (list) {
-		console.log(list);
+		console.log(list.cards);
 		list.card = {
 			name: list.card.name,
 			description: list.card.description,
@@ -39,5 +51,8 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Aut
 		list.cards.$add(list.card);
 		list.card.name = '';
 		list.card.description = '';
+	};
+	$scope.addUserToCard = function (user, card) {
+		card.users.$add(user);
 	};
 });

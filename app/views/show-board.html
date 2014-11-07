@@ -1,34 +1,65 @@
 <h1>{{board.title}}</h1>
 <p>{{board.description}}</p>
+
+<!-- Begin Displaying Lists -->
 <ul ng-repeat="list in lists">
-  <li>{{list.name}}</li>
-    <ul ng-repeat="card in list.cards">
-      <li>
-        <h6>{{card.name}}</h6>
-        <p>{{card.description}}</p>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <li>{{list.name}}</li>
+        <!-- Begin Displaying Cards -->
+        <ul>
+          <li ng-repeat="card in list.cards">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h6>{{card.name}}</h6>
+              </div>
+              <div class="panel-body">
+                <p>{{card.description}}</p>
+                <ul class="list-inline">
+                  <li ng-repeat="user in card.users"><img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" /></li>
+                </ul>
+                <p>Add Users to Card:</p>
+                <ul>
+                  <li ng-repeat="user in users">
+                    <div class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <!-- End Displaying Cards -->
+        <!-- Begin New Card Form -->
+        <ul>
+          <li>
+            <form ng-submit="addCard(list)">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="New Card" ng-model="list.card.name">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Description..." ng-model="list.card.description">
+              </div>
+              <input type="submit" class="btn btn-primary" value="Add Card">
+            </form>
+          </li>
+        </ul>
+        <!-- End New Card Form -->
       </li>
-    </ul>
+    </div>
+  </div>
+</ul>
+<!-- End Lists -->
+<div class="panel panel-default">
+  <div class="panel-body">
     <ul>
       <li>
-        <form ng-submit="addCard(list)">
+        <form ng-submit="addList()">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="New Card" ng-model="list.card.name">
+            <input type="text" class="form-control" placeholder="New List" ng-model="list.name">
           </div>
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Description..." ng-model="list.card.description">
-          </div>
-          <input type="submit" class="btn btn-primary" value="Add Card">
+          <input type="submit" class="btn btn-primary" value="Add List">
         </form>
       </li>
     </ul>
-</ul>
-<ul>
-  <li>
-    <form ng-submit="addList()">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="New List" ng-model="list.name">
-      </div>
-      <input type="submit" class="btn btn-primary" value="Add List">
-    </form>
-  </li>
-</ul>
+  </div>
+</div>
