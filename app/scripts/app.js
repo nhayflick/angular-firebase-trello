@@ -54,9 +54,10 @@ var app = angular
       });
   }).run(function($httpBackend) {
     /*jshint camelcase: false */
+    var currentBoardId = 1;
     var boards = [{
       id: 1, 
-      name: 'Paris Trip', 
+      title: 'Paris Trip', 
       description: 'Ball so hard...',
       user_id: 1
     }];
@@ -95,6 +96,7 @@ var app = angular
     // adds a new board to the boards array
     $httpBackend.whenPOST('/boards').respond(function(method, url, data) {
       var board = angular.fromJson(data);
+      board.id = currentBoardId++;
       boards.push(board);
       return [200, board, {}];
     });
