@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name angularFirebaseTrelloApp.authenticate
+ * @name angularTrelloApp.authenticate
  * @description
  * # authenticate
- * Factory in the angularFirebaseTrelloApp.
+ * Factory in the angularTrelloApp.
  */
 app.factory('Authenticate', function (FIREBASE_URL, $firebase, $firebaseSimpleLogin, $rootScope) {
     var ref = new Firebase(FIREBASE_URL);

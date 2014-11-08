@@ -3,7 +3,7 @@
 describe('Service: authenticate', function () {
 
   // load the service's module
-  beforeEach(module('angularFirebaseTrelloApp'));
+  beforeEach(module('angularTrelloApp'));
 
   // instantiate service
   var Authenticate;

@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name angularFirebaseTrelloApp.controller:NavCtrl
+ * @name angularTrelloApp.controller:NavCtrl
  * @description
  * # NavCtrl
- * Controller of the angularFirebaseTrelloApp
+ * Controller of the angularTrelloApp
  */
 app.controller('NavCtrl', function ($scope, Authenticate) {
     $scope.signedIn = Authenticate.signedIn;

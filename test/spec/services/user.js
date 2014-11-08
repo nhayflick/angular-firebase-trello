@@ -3,7 +3,7 @@
 describe('Service: user', function () {
 
   // load the service's module
-  beforeEach(module('angularFirebaseTrelloApp'));
+  beforeEach(module('angularTrelloApp'));
 
   // instantiate service
   var user;
@@ -11,8 +11,8 @@ describe('Service: user', function () {
     user = _user_;
   }));
 
-  it('should do something', function () {
-    expect(!!user).toBe(true);
-  });
+  // it('should do something', function () {
+  //   expect(!!user).toBe(true);
+  // });
 
 });

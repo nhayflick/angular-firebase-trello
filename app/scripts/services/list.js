@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name angularFirebaseTrelloApp.list
+ * @name angularTrelloApp.list
  * @description
  * # list
- * Factory in the angularFirebaseTrelloApp.
+ * Factory in the angularTrelloApp.
  */
 app.factory('List', function ($firebase, FIREBASE_URL) {
 	// Service logic

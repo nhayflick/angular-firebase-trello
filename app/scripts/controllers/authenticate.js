@@ -2,15 +2,16 @@
 
 /**
  * @ngdoc function
- * @name angularFirebaseTrelloApp.controller:AuthenticateCtrl
+ * @name angularTrelloApp.controller:AuthenticateCtrl
  * @description
  * # AuthenticateCtrl
- * Controller of the angularFirebaseTrelloApp
+ * Controller of the angularTrelloApp
  */
 app.controller('AuthenticateCtrl', function ($scope, $location, user, Authenticate) {
     if (user) {
       $location.path('/');
     }
+
 
     $scope.register = function () {
       Authenticate.register($scope.user).then(function(user){

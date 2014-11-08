@@ -3,16 +3,28 @@
 describe('Service: Board', function () {
 
   // load the service's module
-  beforeEach(module('angularFirebaseTrelloApp'));
+  beforeEach(module('angularTrelloApp'));
 
   // instantiate service
-  var board;
-  beforeEach(inject(function (_board_) {
-    board = _board_;
+  var Board;
+  beforeEach(inject(function (_Board_) {
+    Board = _Board_;
   }));
 
-  it('should do something', function () {
-    expect(!!board).toBe(true);
-  });
+  // var board;
+  //  beforeEach(inject(function () {
+  //   board = new Board();
+  // }));
 
+  it('should correctly catch validation errors in missing fields', function () {
+    var content = {
+      name: '',
+      description: 'User forgot to name this...'
+    };
+    Board.insert(content).catch(function(error){
+      expect(error).toBe('Field can\'t be empty');
+      done(); // Alerts test runner when completed for async operations
+    });
+    scope.$digest();
+  });
 });

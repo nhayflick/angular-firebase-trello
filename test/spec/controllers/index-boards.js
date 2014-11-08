@@ -3,7 +3,7 @@
 describe('Controller: IndexBoardsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('angularFirebaseTrelloApp'));
+  beforeEach(module('angularTrelloApp'));
 
   var IndexboardsCtrl,
     scope;

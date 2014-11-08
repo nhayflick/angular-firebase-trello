@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name angularFirebaseTrelloApp.controller:ShowBoardCtrl
+ * @name angularTrelloApp.controller:ShowBoardCtrl
  * @description
  * # ShowBoardCtrl
- * Controller of the angularFirebaseTrelloApp
+ * Controller of the angularTrelloApp
  */
 app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Card, Authenticate, User) {
 	$scope.board = Board.get($routeParams.boardId);

@@ -3,7 +3,7 @@
 describe('Controller: AuthenticateCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('angularFirebaseTrelloApp'));
+  beforeEach(module('angularTrelloApp'));
 
   var AuthenticateCtrl,
     scope;

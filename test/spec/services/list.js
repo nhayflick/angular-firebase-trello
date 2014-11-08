@@ -3,7 +3,7 @@
 describe('Service: list', function () {
 
   // load the service's module
-  beforeEach(module('angularFirebaseTrelloApp'));
+  beforeEach(module('angularTrelloApp'));
 
   // instantiate service
   var list;
@@ -11,8 +11,8 @@ describe('Service: list', function () {
     list = _list_;
   }));
 
-  it('should do something', function () {
-    expect(!!list).toBe(true);
-  });
+  // it('should do something', function () {
+  //   expect(!!list).toBe(true);
+  // });
 
 });

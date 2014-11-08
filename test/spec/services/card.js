@@ -3,7 +3,7 @@
 describe('Service: Card', function () {
 
   // load the service's module
-  beforeEach(module('angularFirebaseTrelloApp'));
+  beforeEach(module('angularTrelloApp'));
 
   // instantiate service
   var Card;
@@ -11,8 +11,8 @@ describe('Service: Card', function () {
     Card = _Card_;
   }));
 
-  it('should do something', function () {
-    expect(!!Card).toBe(true);
-  });
+  // it('should do something', function () {
+  //   expect(!!Card).toBe(true);
+  // });
 
 });

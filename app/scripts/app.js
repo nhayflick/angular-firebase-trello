@@ -5,21 +5,20 @@
 
 /**
  * @ngdoc overview
- * @name angularFirebaseTrelloApp
+ * @name angularTrelloApp
  * @description
- * # angularFirebaseTrelloApp
+ * # angularTrelloApp
  *
  * Main module of the application.
  */
 var app = angular
-  .module('angularFirebaseTrelloApp', [
+  .module('angularTrelloApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'firebase',
     'ngMockE2E'
   ])
   .config(function ($routeProvider) {
@@ -53,8 +52,7 @@ var app = angular
       .otherwise({
         redirectTo: '/'
       });
-  }).constant('FIREBASE_URL', 'https://fiery-heat-4015.firebaseio.com/')
-  .run(function($httpBackend) {
+  }).run(function($httpBackend) {
     /*jshint camelcase: false */
     var boards = [{
       id: 1, 
