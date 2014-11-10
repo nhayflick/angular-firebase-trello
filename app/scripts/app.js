@@ -19,6 +19,7 @@ var app = angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'ui.sortable',
     'firebase'
   ])
   .config(function ($routeProvider) {
