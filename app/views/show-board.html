@@ -7,7 +7,7 @@
     <div class="panel-body">
       <li>{{list.name}}</li>
         <!-- Begin Displaying Cards -->
-        <ul ui-sortable="sortableOptions(list)" ng-model="list.cards" class="cards-container">
+        <ul ui-sortable="sortableOptions(list)" ng-model="draggableLists[list.$id].cards" class="cards-container">
           <li ng-repeat="card in list.cards" >
             <div class="panel panel-default">
               <div class="panel-heading">

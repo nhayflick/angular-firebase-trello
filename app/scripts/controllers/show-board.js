@@ -11,49 +11,46 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 	$scope.board = Board.get($routeParams.boardId);
 	$scope.users = User.all();
 	$scope.lists = Board.lists($routeParams.boardId);
+	$scope.draggableLists = {};
 	var startIndex = 0;
 	var card;
 	$scope.sortableOptions = function(list) {
 		return {
 			connectWith: ".cards-container",
 			dropOnEmpty: true,
-			start: function(e, ui) {
+			start: function (e, ui) {
+				// Grab the items index before it is moved
 				startIndex = ui.item.index();
-				console.log(this);
 			},
-			beforeStop: function(e, ui) {
-				// console.log($(this).scope().list);
+			beforeStop: function (e, ui) {
 				var addToList = ui.item.parent()[0];
+				// Identifies a cross-list drag operation
 				if (this !== addToList) {
-					// console.log(startIndex);
-					// console.log(ui.item.index());
-					// TODO this is the new index, we need the previous one
 					card = list.cards[startIndex];
-					// console.log(cards);
-					list.cards.$remove(startIndex);
-					$(addToList).scope().list.cards.$add(card)
-					ui.item.sortable.cancel();
-				};
+					// Trigger $add to update Firebase array
+					$(addToList).scope().list.cards.$add(card);
+				}
 			},
-			remove: function(e, ui) {
-				// console.log(ui.item);
-				// var card = cards[oldIndex];
-				// console.log(card);
-				// cards.$remove(card);
+			remove: function (e, ui) {
+				// Trigger $remove to update Firebase array
+				list.cards.$remove(startIndex);
 			},
-			receive: function(e, ui) {
-				// console.log("here");
-			},
-			stop: function(e, ui) {
-				angular.forEach(list.cards, function(value, index) {
-		      var card = list.cards.$getRecord(value.$id);
-		      // Reorder items on backend by updating priority to match array index
-		      if (card.$priority != index) {
-			      card.$priority = index;
-			      list.cards.$save(card);
-			    }
-		    });
-	    }
+			stop: function (e, ui) {
+				// var draggableCards = $scope.draggableLists[list.$id].cards;
+				console.log($scope.draggableLists);
+				angular.forEach($scope.draggableLists, function(draggableList, i) {
+					console.log(draggableList);
+					angular.forEach(draggableList.cards, function(value, index) {
+				      var card = $scope.lists.$getRecord(draggableList.$id).cards.$getRecord(value.$id);
+				      console.log(card);
+				      // Reorder items on backend by updating priority to match array index
+				      if (card.$priority != index) {
+					      card.$priority = index;
+					      list.cards.$save(card);
+					    }
+				    });
+				});
+		    }
 		}
 	};
 
@@ -63,12 +60,15 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 			var list = $scope.lists.$getRecord(notification.key);
 			// Fetch cards object from backend by ID
 			list.cards = List.cards(list.$id);
+			$scope.draggableLists[list.$id] = angular.copy(list);
+			$scope.draggableLists[list.$id]['cards'] = [];
 			list.cards.$watch(function (notification) {
 				if (notification.event === 'child_added') {
-				// Lookup object in FireBase array by key
+					// Lookup object in FireBase array by key
 					var card = list.cards.$getRecord(notification.key);
 						// Fetch user object from backend by ID
 					card.users = Card.users(card.$id);
+					$scope.draggableLists[list.$id].cards.push(card);
 				}
 			});
 		}
