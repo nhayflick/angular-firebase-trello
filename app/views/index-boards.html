@@ -7,6 +7,6 @@
 </form>
 
 <div ng-repeat="board in boards">
-  <a href="#/boards/{{board.$id}}">{{board.title}}</a>
+  <a href="#/boards/{{board.id}}">{{board.title}}</a>
   <p>{{board.description}}</p><a ng-click="deleteBoard(board)">Delete</a>
 </div>

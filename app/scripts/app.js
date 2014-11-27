@@ -52,7 +52,7 @@ var app = angular
       .otherwise({
         redirectTo: '/'
       });
-  }).run(function($httpBackend) {
+  }).run(function($httpBackend, $filter) {
     /*jshint camelcase: false */
     var currentBoardId = 1;
     var boards = [{
@@ -88,6 +88,18 @@ var app = angular
       id: 2, 
       name: 'Jay-Z', 
     }];
+
+    var idRegEx = /\/boards\/(\w+.*)/;
+
+    // Mock Detail API Calls
+    $httpBackend.whenGET(idRegEx).respond(function(method, url, data, headers) {
+        var boardId = parseInt(url.match(idRegEx)[1]);
+        console.log($filter('filter')(boards, {id: boardId})[0]);
+        return [200, $filter('filter')(boards, {id: boardId})[0], {}];
+      }
+    );
+
+    // Mock Index API Calls
     $httpBackend.whenGET('/boards').respond(boards);
     $httpBackend.whenGET('/lists').respond(lists);
     $httpBackend.whenGET('/cards').respond(cards);
@@ -96,7 +108,8 @@ var app = angular
     // adds a new board to the boards array
     $httpBackend.whenPOST('/boards').respond(function(method, url, data) {
       var board = angular.fromJson(data);
-      board.id = currentBoardId++;
+      currentBoardId++;
+      board.id = currentBoardId;
       boards.push(board);
       return [200, board, {}];
     });

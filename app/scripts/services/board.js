@@ -9,9 +9,9 @@
  */
 
 app.factory('Board', function ($resource) {
-  // var Board = {};
+  var Board = {};
 
-  // Board.$resource = $resource('/boards/:id');
+  Board.$resource = $resource('/boards/:id');
   
   // Board.FIELDS = [{
   //     fieldName: 'title',
