@@ -55,6 +55,8 @@ var app = angular
   }).run(function($httpBackend, $filter) {
     /*jshint camelcase: false */
     var currentBoardId = 1;
+    var currentCardId = 2;
+    var currentListId = 3;
     var boards = [{
       id: 1, 
       title: 'Paris Trip', 
@@ -66,27 +68,38 @@ var app = angular
       name: 'To Do', 
       description: 'So much to do, so little time', 
       board_id: 1
-    },{
+    },
+    {
       id: 2, 
+      name: 'Doing', 
+      board_id: 1
+    },{
+      id: 3, 
       name: 'Doing', 
       board_id: 2
     }];
     var cards = [{
       id: 1, 
       name: 'Order Fish Fillet', 
-      list_id: 1
+      list_id: 1,
+      board_id: 1,
+      user_ids: [1]
     }, {
       id: 2, 
       name: 'Wait for Croissants', 
       description: 'Seems to be taking longer than expected',
-      list_id: 2
+      list_id: 2,
+      board_id: 1,
+      user_ids: [2]
     }];
     var users = [{
       id: 1, 
       name: 'Kanye West', 
+      url_image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8OX6-NuQBIZcufKwKAO8E25PXjHBGE8Kml2C2T4gIgRPnzyoI'
     }, {
       id: 2, 
-      name: 'Jay-Z', 
+      name: 'Jay-Z',
+      url_image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuGs3lglC_GtBU5RVPZMSCj9bdySZ7E_XrZI2gcb-tHvYbNoakAQ'
     }];
 
     var idRegEx = /\/boards\/(\w+.*)/;
@@ -94,8 +107,11 @@ var app = angular
     // Mock Detail API Calls
     $httpBackend.whenGET(idRegEx).respond(function(method, url, data, headers) {
         var boardId = parseInt(url.match(idRegEx)[1]);
-        console.log($filter('filter')(boards, {id: boardId})[0]);
-        return [200, $filter('filter')(boards, {id: boardId})[0], {}];
+        var board = $filter('filter')(boards, {id: boardId})[0];
+        board.lists = $filter('filter')(lists, {board_id: boardId});
+        board.cards = $filter('filter')(cards, {board_id: boardId});
+        board.users = users;
+        return [200, board, {}];
       }
     );
 
@@ -115,11 +131,15 @@ var app = angular
     });
     $httpBackend.whenPOST('/lists').respond(function(method, url, data) {
       var list = angular.fromJson(data);
+      currentListId++;
+      list.id = currentListId;
       lists.push(list);
       return [200, list, {}];
     });
     $httpBackend.whenPOST('/cards').respond(function(method, url, data) {
       var card = angular.fromJson(data);
+      currentCardId++;
+      card.id = currentCardId;
       cards.push(card);
       return [200, card, {}];
     });

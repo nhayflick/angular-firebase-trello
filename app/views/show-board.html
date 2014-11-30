@@ -8,7 +8,7 @@
       <li>{{list.name}}</li>
         <!-- Begin Displaying Cards -->
         <ul>
-          <li ng-repeat="card in list.cards">
+          <li ng-repeat="card in cards | filter:{'list_id':  list.id}:true ">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h6>{{card.name}}</h6>
@@ -16,7 +16,7 @@
               <div class="panel-body">
                 <p>{{card.description}}</p>
                 <ul class="list-inline">
-                  <li ng-repeat="user in card.users"><img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" /></li>
+                  <li ng-repeat="user in users | userOnCard:card"><img ng-src="{{user.url_image}}" class="user-thumbnail" /></li>
                 </ul>
                 <p>Add Users to Card:</p>
                 <ul>
