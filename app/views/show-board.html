@@ -1,52 +1,51 @@
-<h1>{{board.title}}</h1>
-<p>{{board.description}}</p>
+<h1 class="text-center">{{board.title}}</h1>
+<p class="text-center">{{board.description}}</p>
 
 <!-- Begin Displaying Lists -->
-<ul ng-repeat="list in lists">
-  <div class="panel panel-default">
+<ul class="list-unstyled">
+  <li class="panel panel-default list" ng-repeat="list in lists">
+    <h3 class="text-center">{{list.name}}</h3>
     <div class="panel-body">
-      <li>{{list.name}}</li>
-        <!-- Begin Displaying Cards -->
-        <ul>
-          <li ng-repeat="card in cards | filter:{'list_id':  list.id}:true ">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h6>{{card.name}}</h6>
-              </div>
-              <div class="panel-body">
-                <p>{{card.description}}</p>
-                <ul class="list-inline">
-                  <li ng-repeat="user in users | userOnCard:card"><img ng-src="{{user.url_image}}" class="user-thumbnail" /></li>
-                </ul>
-                <p>Add Users to Card:</p>
-                <ul>
-                  <li ng-repeat="user in users">
-                    <div class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
-                  </li>
-                </ul>
-              </div>
+      <!-- Begin Displaying Cards -->
+      <ul class="list-cards" ui-sortable="sortableOptions" ng-model="list.cards">
+        <li ng-repeat="card in list.cards | orderCardsForList:list">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h6>{{card.name}}</h6>
             </div>
-          </li>
-        </ul>
-        <!-- End Displaying Cards -->
-        <!-- Begin New Card Form -->
-        <ul>
-          <li>
-            <form ng-submit="addCard(list)">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="New Card" ng-model="list.card.name">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Description..." ng-model="list.card.description">
-              </div>
-              <input type="submit" class="btn btn-primary" value="Add Card">
-            </form>
-          </li>
-        </ul>
-        <!-- End New Card Form -->
-      </li>
+            <div class="panel-body">
+              <p>{{card.description}}</p>
+              <ul class="list-inline">
+                <li ng-repeat="user in users | userOnCard:card"><img ng-src="{{user.url_image}}" class="user-thumbnail" /></li>
+              </ul>
+              <!-- <p>Add Users to Card:</p>
+              <ul>
+                <li ng-repeat="user in users">
+                  <div class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
+                </li>
+              </ul> -->
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- End Displaying Cards -->
+      <!-- Begin New Card Form -->
+      <ul>
+        <li>
+          <form ng-submit="addCard(list)">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="New Card" ng-model="list.card.name">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Description..." ng-model="list.card.description">
+            </div>
+            <input type="submit" class="btn btn-primary" value="Add Card">
+          </form>
+        </li>
+      </ul>
+      <!-- End New Card Form -->
     </div>
-  </div>
+  </li>
 </ul>
 <!-- End Lists -->
 <div class="panel panel-default">

@@ -19,7 +19,8 @@ var app = angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngMockE2E'
+    'ngMockE2E',
+    'ui.sortable'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -67,12 +68,14 @@ var app = angular
       id: 1, 
       name: 'To Do', 
       description: 'So much to do, so little time', 
-      board_id: 1
+      board_id: 1,
+      card_ids: [1]
     },
     {
       id: 2, 
       name: 'Doing', 
-      board_id: 1
+      board_id: 1,
+      card_ids: [2]
     },{
       id: 3, 
       name: 'Doing', 
@@ -83,6 +86,7 @@ var app = angular
       name: 'Order Fish Fillet', 
       list_id: 1,
       board_id: 1,
+      list_index: 0,
       user_ids: [1]
     }, {
       id: 2, 
@@ -90,6 +94,7 @@ var app = angular
       description: 'Seems to be taking longer than expected',
       list_id: 2,
       board_id: 1,
+      list_index: 0,
       user_ids: [2]
     }];
     var users = [{
@@ -111,6 +116,7 @@ var app = angular
         board.lists = $filter('filter')(lists, {board_id: boardId});
         board.cards = $filter('filter')(cards, {board_id: boardId});
         board.users = users;
+        console.log(board);
         return [200, board, {}];
       }
     );
@@ -120,6 +126,24 @@ var app = angular
     $httpBackend.whenGET('/lists').respond(lists);
     $httpBackend.whenGET('/cards').respond(cards);
     $httpBackend.whenGET('/users').respond(users);
+
+    var listDetailRegEx = /\/lists\/(\w+.*)/;
+
+    $httpBackend.whenPOST(listDetailRegEx).respond(function(method, url, data) {
+      var listId = parseInt(url.match(listDetailRegEx)[1]);
+      var updatedList;
+      lists.forEach(function (list, i) {
+        if (list.id == listId) {
+          console.log(list);
+          console.log(data);
+          console.log(lists[i]);
+          lists[i] = JSON.parse(data);
+          updatedList = lists[i];
+          return false;
+        };
+      });
+      return [200, updatedList, {}];
+    });
 
     // adds a new board to the boards array
     $httpBackend.whenPOST('/boards').respond(function(method, url, data) {
