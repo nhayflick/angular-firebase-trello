@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+	  <h6>{{card.name}}</h6>
+	</div>
+	<div class="panel-body">
+	  <p>{{card.description}}</p>
+	  <ul class="list-inline">
+	    <li ng-repeat="user in users | userOnCard:card"><img ng-src="{{user.url_image}}" class="user-thumbnail" /></li>
+	  </ul>
+	  <p>Add Users to Card:</p>
+	  <ul>
+	    <li ng-repeat="user in users">
+	      <div class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
+	    </li>
+	  </ul>
+	</div>
+</div>

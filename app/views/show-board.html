@@ -7,8 +7,8 @@
     <h3 class="text-center">{{list.name}}</h3>
     <div class="panel-body">
       <!-- Begin Displaying Cards -->
-      <ul class="list-cards" ui-sortable="sortableOptions" ng-model="list.cards">
-        <li ng-repeat="card in list.cards | orderCardsForList:list">
+      <ul class="list-cards" ui-sortable="sortableOptions(list, card)" ng-model="list.cards">
+        <li ng-repeat="card in list.cards | orderCardsForList:list" ng-click="openCard(card)">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h6>{{card.name}}</h6>

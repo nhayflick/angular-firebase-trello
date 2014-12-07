@@ -3,3 +3,9 @@
 	height: 40px;
 	width: 40px;
 }
+
+.list {
+	width: 300px;
+	margin: 20px;
+	float: left;
+}

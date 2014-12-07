@@ -10,9 +10,8 @@
     "angular-cookies": "~1.2.0",
     "angular-sanitize": "~1.2.0",
     "angular-animate": "~1.2.0",
-    "angular-touch": "~1.2.0",
+    "angular-mocks": "~1.2.0",
     "angular-route": "~1.2.0",
-    "angularfire": "~0.8.2",
     "angular-ui-sortable": "~0.13.1",
     "jquery-ui": "~1.11.2"
   },

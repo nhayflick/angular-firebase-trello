@@ -20,7 +20,9 @@ var app = angular
     'ngSanitize',
     'ngTouch',
     'ngMockE2E',
-    'ui.sortable'
+    'ui.sortable',
+    'ui.bootstrap',
+    'ui.bootstrap.tpls'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -116,7 +118,6 @@ var app = angular
         board.lists = $filter('filter')(lists, {board_id: boardId});
         board.cards = $filter('filter')(cards, {board_id: boardId});
         board.users = users;
-        console.log(board);
         return [200, board, {}];
       }
     );
@@ -128,21 +129,32 @@ var app = angular
     $httpBackend.whenGET('/users').respond(users);
 
     var listDetailRegEx = /\/lists\/(\w+.*)/;
+    var cardDetailRegEx = /\/cards\/(\w+.*)/;
 
     $httpBackend.whenPOST(listDetailRegEx).respond(function(method, url, data) {
       var listId = parseInt(url.match(listDetailRegEx)[1]);
       var updatedList;
       lists.forEach(function (list, i) {
         if (list.id == listId) {
-          console.log(list);
-          console.log(data);
-          console.log(lists[i]);
           lists[i] = JSON.parse(data);
           updatedList = lists[i];
           return false;
         };
       });
       return [200, updatedList, {}];
+    });
+    $httpBackend.whenPOST(cardDetailRegEx).respond(function(method, url, data) {
+      var cardId = parseInt(url.match(cardDetailRegEx)[1]);
+      var updatedCard;
+      cards.forEach(function (card, i) {
+        if (card.id == cardId) {
+          cards[i] = JSON.parse(data);
+          updatedCard = cards[i];
+          console.log(updatedCard);        
+          return false;
+        };
+      });
+      return [200, updatedCard, {}];
     });
 
     // adds a new board to the boards array
