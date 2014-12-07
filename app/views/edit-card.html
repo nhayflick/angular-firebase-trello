@@ -10,7 +10,8 @@
 	  <p>Add Users to Card:</p>
 	  <ul>
 	    <li ng-repeat="user in users">
-	      <div class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
+	      <div ng-hide="userIsOnCard(user, card)" class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
+	      <div ng-show="userIsOnCard(user, card)" class="btn btn-info" ng-click="removeUserFromCard(user, card)">{{user.name}} ✔</div>
 	    </li>
 	  </ul>
 	</div>

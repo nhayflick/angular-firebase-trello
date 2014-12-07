@@ -128,9 +128,30 @@ var app = angular
     $httpBackend.whenGET('/cards').respond(cards);
     $httpBackend.whenGET('/users').respond(users);
 
+    var cardUserDetailRegEx = /\/cards\/(\w+.*)\/users\/(\w+.*)/;
     var listDetailRegEx = /\/lists\/(\w+.*)/;
     var cardDetailRegEx = /\/cards\/(\w+.*)/;
 
+    // POST to CARDUSER:UPDATE endpoint
+    $httpBackend.whenPOST(cardUserDetailRegEx).respond(function(method, url, data) {
+      var cardId = parseInt(url.match(cardUserDetailRegEx)[1]);
+      var userId = parseInt(url.match(cardUserDetailRegEx)[2]);
+      var updatedCardUser = {};
+      cards.forEach(function (card, i) {
+        if (card.id == cardId) {
+          console.log(card.user_ids);
+          if (card.user_ids.indexOf(userId) == -1) {
+            console.log('true');
+            console.log(userId);
+            card.user_ids.push(userId);
+            updatedCardUser = {card_id: cardId, user_id: userId};
+          }
+          return false;
+        };
+      });
+      return [200, updatedCardUser, {}];
+    });
+    // POST to LIST:UPDATE endpoint
     $httpBackend.whenPOST(listDetailRegEx).respond(function(method, url, data) {
       var listId = parseInt(url.match(listDetailRegEx)[1]);
       var updatedList;
@@ -143,6 +164,7 @@ var app = angular
       });
       return [200, updatedList, {}];
     });
+    // POST to CARD:UPDATE endpoint
     $httpBackend.whenPOST(cardDetailRegEx).respond(function(method, url, data) {
       var cardId = parseInt(url.match(cardDetailRegEx)[1]);
       var updatedCard;
@@ -156,8 +178,7 @@ var app = angular
       });
       return [200, updatedCard, {}];
     });
-
-    // adds a new board to the boards array
+    // CREATE a new Board
     $httpBackend.whenPOST('/boards').respond(function(method, url, data) {
       var board = angular.fromJson(data);
       currentBoardId++;
@@ -165,6 +186,7 @@ var app = angular
       boards.push(board);
       return [200, board, {}];
     });
+    // CREATE a new List
     $httpBackend.whenPOST('/lists').respond(function(method, url, data) {
       var list = angular.fromJson(data);
       currentListId++;
@@ -172,14 +194,28 @@ var app = angular
       lists.push(list);
       return [200, list, {}];
     });
+    // POST to CARD:CREATE
     $httpBackend.whenPOST('/cards').respond(function(method, url, data) {
       var card = angular.fromJson(data);
       currentCardId++;
       card.id = currentCardId;
+      card.user_ids = [];
       cards.push(card);
       return [200, card, {}];
     });
-
+    // DELETE to CARDUSER:DELETE endpoint
+    $httpBackend.whenDELETE(cardUserDetailRegEx).respond(function(method, url, data) {
+      var cardId = parseInt(url.match(cardUserDetailRegEx)[1]);
+      var userId = parseInt(url.match(cardUserDetailRegEx)[2]);
+      var deletedCardUser = {};
+      var card = $filter('filter')(cards, {id: cardId}, true)[0];
+      var indexToRemove = card.user_ids.indexOf(userId);
+      if (card && indexToRemove != -1) {
+        card.user_ids.splice(indexToRemove, 1);
+        deletedCardUser = {card_id: cardId, user_id: userId};
+      }
+      return [200, deletedCardUser, {}];
+    });
 
 
     // takes away an old board

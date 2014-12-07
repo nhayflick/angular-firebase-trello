@@ -32,6 +32,7 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, $q, $http, $filt
 			  				list.card_ids[i] = list.cards[i]['id'];
 			  			}
 			  		}
+			  		// If a card is in a new list, update its parent list on the server
 			  		if (oldListLength < list.card_ids.length)  {
 			  			var targetId = list.card_ids[ui.item.sortable.dropindex];
 			  			var droppedCard = $filter('filter')(list.cards, {id: targetId})[0];
@@ -65,7 +66,7 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, $q, $http, $filt
 	});
 	$scope.openCard = function (card) {
 	    var modalInstance = $modal.open({
-	      templateUrl: 'views/show-card.html',
+	      templateUrl: 'views/edit-card.html',
 	      // backdrop: false,
 	      controller: 'EditCardModalInstanceCtrl',
 	      resolve: {
@@ -84,7 +85,7 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, $q, $http, $filt
 			name: $scope.list.name,
 			// creatorUID: Authenticate.user.uid,
 			board_id: $scope.board.id,
-			cards: false
+			cards: []
 		};
 		var deferred = $q.defer();
 		$http.post('/lists', newList).success(function(data) {
@@ -115,9 +116,6 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, $q, $http, $filt
 			addNewCardToList(card, list);
 		});
 		list.card = {};
-	};
-	$scope.addUserToCard = function (user, card) {
-		// card.users.$add(user);
 	};
 	function addNewCardToList(card, list) {
 		list.cards.push(card);
