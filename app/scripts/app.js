@@ -25,6 +25,9 @@ var app = angular
     'ui.bootstrap.tpls'
   ])
   .config(function ($routeProvider) {
+    // $urlRouterProvider.otherwise({
+    //   redirectTo: '/'
+    // });
     $routeProvider
       .when('/', {
         templateUrl: 'views/index-boards.html',
@@ -51,8 +54,7 @@ var app = angular
             return Authenticate.resolveUser();
           }
         }
-      })
-      .otherwise({
+      }).otherwise({
         redirectTo: '/'
       });
   }).run(function($httpBackend, $filter) {
