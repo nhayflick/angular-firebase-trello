@@ -87,19 +87,19 @@ var app = angular
     }];
     var cards = [{
       id: 1, 
-      name: 'Order Fish Fillet', 
+      name: 'Order Fish Fillets', 
       list_id: 1,
       board_id: 1,
       list_index: 0,
-      user_ids: [1]
+      user_ids: [1,2]
     }, {
       id: 2, 
-      name: 'Wait for Croissants', 
-      description: 'Seems to be taking longer than expected',
+      name: 'Get Croissants', 
+      description: 'Hurry up...!',
       list_id: 2,
       board_id: 1,
       list_index: 0,
-      user_ids: [2]
+      user_ids: [1]
     }];
     var users = [{
       id: 1, 
