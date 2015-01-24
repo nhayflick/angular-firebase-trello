@@ -2,14 +2,14 @@
 <p>{{board.description}}</p>
 
 <!-- Begin Displaying Lists -->
-<ul ng-repeat="list in lists">
+<ul ng-repeat="list in lists" id="board">
   <div class="panel panel-default">
     <div class="panel-body">
       <li>{{list.name}}</li>
         <!-- Begin Displaying Cards -->
-        <ul ui-sortable="sortableOptions(list)" ng-model="draggableLists[list.$id].cards" class="cards-container">
-          <li ng-repeat="card in list.cards" >
-            <div class="panel panel-default">
+        <ul data-as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container">
+          <li ng-repeat="card in list.cards" data-as-sortable-item>
+            <div class="panel panel-default" data-as-sortable-item-handle>
               <div class="panel-heading">
                 <h6>{{card.name}}</h6>
               </div>

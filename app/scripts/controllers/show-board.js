@@ -14,49 +14,40 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 	$scope.draggableLists = {};
 	var startIndex = 0;
 	var card;
-	$scope.sortableOptions = function(list) {
-		return {
-			connectWith: ".cards-container",
-			dropOnEmpty: true,
-			start: function (e, ui) {
-				// Grab the items index before it is moved
-				startIndex = ui.item.index();
-			},
-			beforeStop: function (e, ui) {
-				var addToList = ui.item.parent()[0];
-				// Identifies a cross-list drag operation
-				if (this !== addToList) {
-					card = list.cards[startIndex];
-					// Trigger $add to update Firebase array
-					$(addToList).scope().list.cards.$add(card);
-				}
-			},
-			remove: function (e, ui) {
-				// Trigger $remove to update Firebase array
-				list.cards.$remove(startIndex);
-			},
-			stop: function (e, ui) {
-				// var draggableCards = $scope.draggableLists[list.$id].cards;
-				console.log($scope.draggableLists);
-				angular.forEach($scope.draggableLists, function(draggableList, i) {
-					console.log(draggableList);
-					angular.forEach(draggableList.cards, function(value, index) {
-				      var card = $scope.lists.$getRecord(draggableList.$id).cards.$getRecord(value.$id);
-				      console.log(card);
-				      // Reorder items on backend by updating priority to match array index
-				      if (card.$priority != index) {
-					      card.$priority = index;
-					      list.cards.$save(card);
-					    }
-				    });
-				});
-		    }
-		}
+	$scope.dragControlListeners = {
+		dragStart: function (event) {
+			// debugger;
+		},
+    itemMoved: function (event) {
+    	// A reference to the UI drag and drop copy of the card
+    	var sortableCard = event.source.sortableScope;
+    	 // A reference to the original $firebase model of the card
+    	var originalCard = event.source.itemScope.card;
+    	// A reference to the UI drag and drop copy of the list
+    	var sortableDestination = event.dest.sortableScope;
+      // Remove card from source list
+      sortableCard.$parent.list.cards.$remove(event.source.index);
+      // Add card to destination list
+      sortableDestination.$parent.list.cards.$add(originalCard);
+      // Place the card in between two whole integers for now
+    	originalCard.$priority = event.dest.index - .5
+    	console.log(originalCard.$priority);
+      // updateCardOrdering(sortableDestination.modelValue, sortableDestination.$parent.list.cards);
+    },
+    orderChanged: function (event) {
+    	console.log('detected ');
+    	// Iterate through UI list
+    	var originalCards = event.source.sortableScope.$parent.list.cards;
+    	var sortableCards = event.source.sortableScope.modelValue;
+    	updateCardOrdering(sortableCards, originalCards);
+
+    },
+    containment: '#board'
 	};
 
 	$scope.lists.$watch(function(notification){
 		if (notification.event === 'child_added') {
-			// Lookup object in FireBase array by key
+			// Lookup list in FireBase array by key
 			var list = $scope.lists.$getRecord(notification.key);
 			// Fetch cards object from backend by ID
 			list.cards = List.cards(list.$id);
@@ -64,11 +55,15 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 			$scope.draggableLists[list.$id]['cards'] = [];
 			list.cards.$watch(function (notification) {
 				if (notification.event === 'child_added') {
+					console.log(notification);
 					// Lookup object in FireBase array by key
 					var card = list.cards.$getRecord(notification.key);
+					// if ("-JgSegMSF5esR33_O-9h")
 						// Fetch user object from backend by ID
 					card.users = Card.users(card.$id);
+					console.log($scope.draggableLists[list.$id]);
 					$scope.draggableLists[list.$id].cards.push(card);
+					console.log($scope.draggableLists[list.$id]);
 				}
 			});
 		}
@@ -132,4 +127,17 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 		// console.log( card.users.$indexFor(user.$id) > -1);
 		return card.users.$indexFor(user.$id) > -1;
 	};
+	function updateCardOrdering(sortableCards, originalCards) {
+		angular.forEach(sortableCards, function(value, index) {
+      // Reorder items on backend by updating priority to match array index
+      console.log("new index: " + index)
+      console.log("current $priority: " + value.$priority)
+      if (value.$priority != index) {
+	      value.$priority = index + 1;
+	      // Step up and back down the scope chain to find the firebase
+	      // collection associated with cards.
+	      originalCards.$save(value);
+	    }
+    });
+	}
 });
