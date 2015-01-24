@@ -23,21 +23,31 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
     	// A reference to the UI drag and drop copy of the list
     	var sortableDestination = event.dest.sortableScope;
       // Remove card from source list
-      sortableCard.$parent.list.cards.$remove(event.source.index);
-      // Add card to destination list
-     	$scope.lists.$getRecord(sortableCard.$parent.list.$id).cards.$add(originalCard);
+      $scope.lists.$getRecord(sortableCard.$parent.list.$id).cards.$remove(event.source.index);
       // Place the card in between two whole integers for now
-    	originalCard.$priority = event.dest.index - .5
-    	console.log(originalCard.$priority);
-      // updateCardOrdering(sortableDestination.modelValue, sortableDestination.$parent.list.cards);
+      originalCard.$priority = event.dest.index + .5;
+       // Add card to destination list
+      (function (event) {
+      	$scope
+	     		.lists
+	     		.$getRecord(sortableDestination.$parent.list.$id)
+	     		.cards
+	     		.$add(originalCard)
+	     		// NG-sortable has already added the sortable item  but
+	     		//it's not properly bound to the server.
+	     		// So we wait for firebase to complete the sync, add it's own card 
+	     		// then we remove the ng-sortable version
+	     		.then(function(ref) {
+	     			event.dest.sortableScope.removeItem(event.dest.index);
+	     			// updateCardOrdering(event.dest.sortableScope.modelValue, event.dest.sortableScope.$parent.list.cards);
+	     		});
+      })(event);
     },
     orderChanged: function (event) {
-    	console.log('detected ');
     	// Iterate through UI list
     	var originalCards = event.source.sortableScope.$parent.list.cards;
     	var sortableCards = event.source.sortableScope.modelValue;
     	updateCardOrdering(sortableCards, originalCards);
-
     },
     containment: '#board'
 	};
@@ -53,10 +63,11 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 			(function(list) {
 					list.cards.$watch(function (notification) {
 						if (notification.event === 'child_added') {
-							console.log('eek!');
 							var card = list.cards.$getRecord(notification.key);
 								// Fetch user object from backend by ID
 							card.users = Card.users(card.$id);
+							// Gotta work on fixing the card placement
+							// $scope.draggableLists[list.$id].cards.splice(parseInt(card.$priority), 0, card);
 							$scope.draggableLists[list.$id].cards.push(card);
 						}
 					});
@@ -128,7 +139,7 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
       console.log("new index: " + index)
       console.log("current $priority: " + value.$priority)
       if (value.$priority != index) {
-	      value.$priority = index + 1;
+	      value.$priority = index;
 	      // Step up and back down the scope chain to find the firebase
 	      // collection associated with cards.
 	      originalCards.$save(value);
