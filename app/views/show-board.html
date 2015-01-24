@@ -8,7 +8,7 @@
       <li>{{list.name}}</li>
         <!-- Begin Displaying Cards -->
         <ul data-as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container">
-          <li ng-repeat="card in list.cards" data-as-sortable-item>
+          <li ng-repeat="card in draggableLists[list.$id].cards" data-as-sortable-item>
             <div class="panel panel-default" data-as-sortable-item-handle>
               <div class="panel-heading">
                 <h6>{{card.name}}</h6>

@@ -15,9 +15,6 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 	var startIndex = 0;
 	var card;
 	$scope.dragControlListeners = {
-		dragStart: function (event) {
-			// debugger;
-		},
     itemMoved: function (event) {
     	// A reference to the UI drag and drop copy of the card
     	var sortableCard = event.source.sortableScope;
@@ -28,7 +25,7 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
       // Remove card from source list
       sortableCard.$parent.list.cards.$remove(event.source.index);
       // Add card to destination list
-      sortableDestination.$parent.list.cards.$add(originalCard);
+     	$scope.lists.$getRecord(sortableCard.$parent.list.$id).cards.$add(originalCard);
       // Place the card in between two whole integers for now
     	originalCard.$priority = event.dest.index - .5
     	console.log(originalCard.$priority);
@@ -53,19 +50,17 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 			list.cards = List.cards(list.$id);
 			$scope.draggableLists[list.$id] = angular.copy(list);
 			$scope.draggableLists[list.$id]['cards'] = [];
-			list.cards.$watch(function (notification) {
-				if (notification.event === 'child_added') {
-					console.log(notification);
-					// Lookup object in FireBase array by key
-					var card = list.cards.$getRecord(notification.key);
-					// if ("-JgSegMSF5esR33_O-9h")
-						// Fetch user object from backend by ID
-					card.users = Card.users(card.$id);
-					console.log($scope.draggableLists[list.$id]);
-					$scope.draggableLists[list.$id].cards.push(card);
-					console.log($scope.draggableLists[list.$id]);
-				}
-			});
+			(function(list) {
+					list.cards.$watch(function (notification) {
+						if (notification.event === 'child_added') {
+							console.log('eek!');
+							var card = list.cards.$getRecord(notification.key);
+								// Fetch user object from backend by ID
+							card.users = Card.users(card.$id);
+							$scope.draggableLists[list.$id].cards.push(card);
+						}
+					});
+			})(list);
 		}
 	});
 
