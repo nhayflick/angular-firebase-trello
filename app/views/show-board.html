@@ -2,67 +2,65 @@
 <p>{{board.description}}</p>
 
 <!-- Begin Displaying Lists -->
-<ul ng-repeat="list in lists" id="board">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <li>{{list.name}}</li>
+<div id="board" layout="row" flex>
+  <md-whiteframe class="md-whiteframe-z1" layout="column" ng-repeat="list in lists" flex="33" layout-margin>
+      <md-toolbar class="md-accent">
+        <div class="md-toolbar-tools">
+          <span class="md-flex">{{list.name}}</span>
+        </div>
+      </md-toolbar>
+      <md-content data-as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container" layout-padding>
         <!-- Begin Displaying Cards -->
-        <ul data-as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container">
-          <li ng-repeat="card in draggableLists[list.$id].cards" data-as-sortable-item>
-            <div class="panel panel-default" data-as-sortable-item-handle>
-              <div class="panel-heading">
-                <h6>{{card.name}}</h6>
-              </div>
-              <div class="panel-body">
-                <p>{{card.description}}</p>
-                <ul class="list-inline">
-                  <li ng-repeat="user in card.users"><img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" /></li>
-                </ul>
-                <div class="hidden">
-                  <p>Add Users to Card:</p>
-                  <ul>
-                    <li ng-repeat="user in users">
-                      <div ng-hide="userIsOnCard(user, card)" class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
-                      <div ng-show="userIsOnCard(user, card)" class="btn btn-warning" ng-click="removeUserFromCard(user, card)">{{user.name}} <span class="glyphicon glyphicon-ok"></span></div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
+                  <md-card flex="100" ng-repeat="card in draggableLists[list.$id].cards" data-as-sortable-item>
+                    <div data-as-sortable-item-handle>
+                      <h6>{{card.name}}</h6>
+                      <p>{{card.description}}</p>
+                      <ul class="list-inline">
+                        <li ng-repeat="user in card.users"><img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" /></li>
+                      </ul>
+                      <div style="display: none;">
+                        <p>Add Users to Card:</p>
+                        <ul>
+                          <li ng-repeat="user in users">
+                            <div ng-hide="userIsOnCard(user, card)" class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
+                            <div ng-show="userIsOnCard(user, card)" class="btn btn-warning" ng-click="removeUserFromCard(user, card)">{{user.name}} <span class="glyphicon glyphicon-ok"></span></div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </md-card>
         <!-- End Displaying Cards -->
         <!-- Begin New Card Form -->
-        <ul>
-          <li>
-            <form ng-submit="addCard(list)">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="New Card" ng-model="list.card.name">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Description..." ng-model="list.card.description">
-              </div>
-              <input type="submit" class="btn btn-primary" value="Add Card">
-            </form>
-          </li>
-        </ul>
-        <!-- End New Card Form -->
-      </li>
-    </div>
-  </div>
-</ul>
+        <div>
+          <form ng-submit="addCard(list)">
+            <md-input-container>
+              <input type="text" class="form-control" placeholder="New Card" ng-model="list.card.name">
+            </md-input-container>
+            <md-input-container>
+              <input type="text" class="form-control" placeholder="Description..." ng-model="list.card.description">
+            </md-input-container>
+            <input type="submit" class="btn btn-primary" value="Add Card">
+          </form>
+        </div>
+      </md-content>
+      <!-- End New Card Form -->
+  </md-whiteframe>
 <!-- End Lists -->
-<div class="panel panel-default">
-  <div class="panel-body">
-    <ul>
-      <li>
+  <div layout="column" flex="33">
+    <md-toolbar class="md-accent">
+      <div class="md-toolbar-tools">
+        <span class="md-flex">New List</span>
+      </div>
+    </md-toolbar>
+    <md-content class="md-padding">
+      <md-card>
         <form ng-submit="addList()">
-          <div class="form-group">
+          <md-input-container>
             <input type="text" class="form-control" placeholder="New List" ng-model="list.name">
-          </div>
+          </md-input-container>
           <input type="submit" class="btn btn-primary" value="Add List">
         </form>
-      </li>
-    </ul>
-  </div>
+      </md-card>
+    </md-content>
+  <div>
 </div>

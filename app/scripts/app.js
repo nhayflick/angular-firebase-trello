@@ -19,6 +19,7 @@ var app = angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'ngMaterial',
     'ui.sortable',
     'firebase'
   ])

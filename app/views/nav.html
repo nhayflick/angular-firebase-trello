@@ -1,36 +1,38 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="#">Boards</a>
-  </div>
+<div class="md-toolbar-tools">
+  <div layout="row" flex="" class="fill-height">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div flex>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/">Boards</a>
+    </div>
+    <div flex></div>
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" ng-controller="NavCtrl">
-    <ul class="nav navbar-nav navbar-right">
-      <li ng-show="signedIn()">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="md-toolbar-item md-breadcrumb">
+      <span ng-show="signedIn()">
         <p class="navbar-text">{{ user.profile.name }}</p>
-      </li>
-      <li ng-show="signedIn()">
+      </span>
+      <span ng-show="signedIn()">
         <a ng-href="#/users/{{ user.profile.uid }}">
           <img ng-src="http://www.gravatar.com/avatar/{{ user.profile.md5_hash }}" class="user-thumbnail" />
           {{ currentUser.name }}
         </a>
-      </li>
-      <li ng-show="signedIn()">
+      </span>
+      <span ng-show="signedIn()">
         <a href="#" ng-click="logout()">Logout</a>
-      </li>
-      <li ng-hide="signedIn()">
+      </span>
+      <span ng-hide="signedIn()">
         <a href="#/login">Login</a>
-      </li>
-      <li ng-hide="signedIn()">
+      </span>
+      <span ng-hide="signedIn()">
         <a href="#/register">Register</a>
-      </li>
-    </ul>
-  </div><!-- /.navbar-collapse -->
-</nav>
+      </span>
+      </div>
+    </div><!-- /.navbar-collapse -->
+  </div>
+</div>

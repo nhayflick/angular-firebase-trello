@@ -8,25 +8,25 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/ng-sortable/dist/ng-sortable.css" />
     <!-- endbower -->
     <!-- endbuild -->
+    <link rel="stylesheet" href="//rawgit.com/angular/bower-material/master/angular-material.css">
     <!-- build:css(.tmp) styles/main.css -->
+
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/app.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="angularFirebaseTrelloApp">
+  <body layout="column" layout-fill role="main" ng-app="angularFirebaseTrelloApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ng-include="'views/nav.html'"></div>
-    <div class="container">
-      <div ng-view=""></div>
-    </div>
+    <md-toolbar ng-include="'views/nav.html'" class="md-default-theme"></md-toolbar>
+    <md-content ng-view="">
+    </md-content>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -49,9 +49,7 @@
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
@@ -63,7 +61,10 @@
     <script src="bower_components/mockfirebase/dist/mockfirebase.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
     <script src="bower_components/ng-sortable/dist/ng-sortable.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/hammerjs/hammer.js"></script>
     <!-- endbower -->
+    <script src="//rawgit.com/angular/bower-material/master/angular-material.js"></script>
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->

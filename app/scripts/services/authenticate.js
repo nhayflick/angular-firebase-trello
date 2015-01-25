@@ -40,13 +40,13 @@ app.factory('Authenticate', function (FIREBASE_URL, $firebase, $firebaseSimpleLo
     };
 
     $rootScope.$on('$firebaseSimpleLogin:login', function(e, user) {
-        //create a deep, derenferenced copy of user for assignment
+        //create a deep, dereferenced copy of user for assignment
       angular.copy(user, Authenticate.user);
         // save a synced JS object of the User's profile object in Firebase
       Authenticate.user.profile = $firebase(ref.child('profile').child(Authenticate.user.uid)).$asObject();
     });
     $rootScope.$on('$firebaseSimpleLogin:logout', function() {
-        //create a deep, derenferenced copy of user for assignment
+        //create a deep, dereferenced copy of user for assignment
       angular.copy({}, Authenticate.user);
     });
 
