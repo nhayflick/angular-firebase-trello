@@ -7,7 +7,18 @@
  * # ShowBoardCtrl
  * Controller of the angularFirebaseTrelloApp
  */
-app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Card, Authenticate, User, $firebase, FIREBASE_URL) {
+app.controller('ShowBoardCtrl', function (
+	$scope, 
+	$routeParams,
+	$mdDialog,
+	$firebase, 
+	FIREBASE_URL,
+	Board, 
+	List, 
+	Card, 
+	Authenticate, 
+	User
+) {
 	$scope.board = Board.get($routeParams.boardId);
 	$scope.users = User.all();
 	$scope.lists = Board.lists($routeParams.boardId);
@@ -86,17 +97,6 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 		});
 		$scope.list.name = '';
 	};
-	// Create a task card and add it to a list
-	$scope.addCard = function (list) {
-		list.card = {
-			name: list.card.name,
-			description: list.card.description || '',
-			creatorUID: Authenticate.user.uid
-		};
-		list.cards.$add(list.card);
-		list.card.name = '';
-		list.card.description = '';
-	};
 	$scope.addUserToCard = function (user, card) {
 		var ref = new Firebase(FIREBASE_URL + '/user_cards/' + user.$id + '/' + card.$id);
 		var sync = $firebase(ref);
@@ -128,11 +128,44 @@ app.controller('ShowBoardCtrl', function ($scope, $routeParams, Board, List, Car
 		// card.users.$remove(user);
 	};
 	$scope.userIsOnCard = function (user, card) {
-		// console.log(user.$id);
-		// console.log(user.name);
-		// console.log( card.users.$indexFor(user.$id) > -1);
 		return card.users.$indexFor(user.$id) > -1;
 	};
+	function createCardDialog (list, $event) {
+    $mdDialog.show({
+      targetEvent: $event,
+      templateUrl: 'views/create-card.html',
+      controller: 'CreateCardCtrl',
+      onComplete: afterShowAnimation,
+      locals: {
+      	list: list, 
+      	lists: $scope.lists
+      }
+    });
+    // When the 'enter' animation finishes...
+    function afterShowAnimation(scope, element, options) {
+       // post-show code here: DOM element focus, etc.
+    }
+  };
+  function editCardDialog (list, card, $event) {
+    $mdDialog.show({
+      targetEvent: $event,
+      templateUrl: 'views/edit-card.html',
+      controller: 'EditCardCtrl',
+      onComplete: afterShowAnimation,
+      locals: {
+      	card: card,
+      	list: list, 
+      	lists: $scope.lists
+      }
+    });
+    // When the 'enter' animation finishes...
+    function afterShowAnimation(scope, element, options) {
+       // post-show code here: DOM element focus, etc.
+    }
+  };
+  $scope.createCardDialog = createCardDialog;
+  $scope.editCardDialog = editCardDialog;
+
 	function updateCardOrdering(sortableCards, originalCards) {
 		angular.forEach(sortableCards, function(value, index) {
       // Reorder items on backend by updating priority to match array index

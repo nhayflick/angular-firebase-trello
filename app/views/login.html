@@ -1,13 +1,17 @@
-<div>
+<section layout="column" layout-fill layout-align="space-around center"> 
   <h2>Login</h2>
   <p class="alert alert-error" ng-show="error">{{error}}</p>
   <form ng-submit="login()">
-    <div class="form-group">
+    <md-input-container>
+      <label>Email</label>
       <input type="text" class="form-control" ng-model="user.email" placeholder="email">
-    </div>
-    <div class="form-group">
-      <input type="password" class="form-control" ng-model="user.password" placeholder="password">
-    </div>
-    <input type="submit" value="Login" class="btn btn-primary">
+    </md-input-container>
+    <md-input-container>
+      <label>Password</label>
+      <input type="password" class="form-control" ng-model="user.password">
+    </md-input-container>
+    <md-button type="submit" class="md-raised md-primary">
+      Login
+    </md-button
   </form>
-</div>
+</section>

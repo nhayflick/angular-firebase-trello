@@ -1,0 +1,24 @@
+<md-dialog>
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout="row">
+      <div flex></div><h4 >Edit Card</h4><div flex></div>
+    </div>
+  </md-toolbar>
+  <md-content>
+     <form ng-submit="updateCard(card.list)">
+      <md-input-container>
+        <label>Item</label>
+        <input type="text" class="form-control" ng-model="card.name">
+      </md-input-container>
+      <md-input-container>
+        <label>Description</label>
+        <input type="text" class="form-control" ng-model="card.description">
+      </md-input-container>
+      <md-actions layout="row">
+        <md-button type="submit" class="md-raised md-primary" flex="100">
+          Save
+        </md-button>
+      </md-actions>
+    </form>
+  </md-content
+</md-dialog>

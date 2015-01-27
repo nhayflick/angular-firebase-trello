@@ -3,7 +3,8 @@
 
 <!-- Begin Displaying Lists -->
 <div id="board" layout="row" flex>
-  <md-whiteframe class="md-whiteframe-z1" layout="column" ng-repeat="list in lists" flex="33" layout-margin>
+  <div flex="33" ng-repeat="list in lists" >
+    <md-whiteframe class="md-whiteframe-z1" layout="column" layout-margin>
       <md-toolbar class="md-accent">
         <div class="md-toolbar-tools">
           <span class="md-flex">{{list.name}}</span>
@@ -11,40 +12,33 @@
       </md-toolbar>
       <md-content data-as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container" layout-padding>
         <!-- Begin Displaying Cards -->
-                  <md-card flex="100" ng-repeat="card in draggableLists[list.$id].cards" data-as-sortable-item>
-                    <div data-as-sortable-item-handle>
-                      <h6>{{card.name}}</h6>
-                      <p>{{card.description}}</p>
-                      <ul class="list-inline">
-                        <li ng-repeat="user in card.users"><img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" /></li>
-                      </ul>
-                      <div style="display: none;">
-                        <p>Add Users to Card:</p>
-                        <ul>
-                          <li ng-repeat="user in users">
-                            <div ng-hide="userIsOnCard(user, card)" class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
-                            <div ng-show="userIsOnCard(user, card)" class="btn btn-warning" ng-click="removeUserFromCard(user, card)">{{user.name}} <span class="glyphicon glyphicon-ok"></span></div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </md-card>
+        <md-card flex="100" ng-repeat="card in draggableLists[list.$id].cards" data-as-sortable-item>
+          <div data-as-sortable-item-handle ng-click="editCardDialog(list, card)">
+            <h6>{{card.name}}</h6>
+            <p>{{card.description}}</p>
+            <ul class="list-inline">
+              <li ng-repeat="user in card.users"><img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" /></li>
+            </ul>
+            <div style="display: none;">
+              <p>Add Users to Card:</p>
+              <ul>
+                <li ng-repeat="user in users">
+                  <div ng-hide="userIsOnCard(user, card)" class="btn btn-primary" ng-click="addUserToCard(user, card)">{{user.name}}</div>
+                  <div ng-show="userIsOnCard(user, card)" class="btn btn-warning" ng-click="removeUserFromCard(user, card)">{{user.name}} <span class="glyphicon glyphicon-ok"></span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </md-card>
         <!-- End Displaying Cards -->
         <!-- Begin New Card Form -->
-        <div>
-          <form ng-submit="addCard(list)">
-            <md-input-container>
-              <input type="text" class="form-control" placeholder="New Card" ng-model="list.card.name">
-            </md-input-container>
-            <md-input-container>
-              <input type="text" class="form-control" placeholder="Description..." ng-model="list.card.description">
-            </md-input-container>
-            <input type="submit" class="btn btn-primary" value="Add Card">
-          </form>
+        <div layout="row">
+          <md-button flex="100" ng-click="createCardDialog(list)">Add Card</md-button>
         </div>
       </md-content>
-      <!-- End New Card Form -->
-  </md-whiteframe>
+        <!-- End New Card Form -->
+    </md-whiteframe>
+  </div>
 <!-- End Lists -->
   <div layout="column" flex="33">
     <md-toolbar class="md-accent">
@@ -64,3 +58,6 @@
     </md-content>
   <div>
 </div>
+<md-button class="md-primary md-fab md-fab-bottom-right" style="position: fixed;" ng-click="createCardDialog()">
+  <h1 style="margin: 0; margin-top: -8px;">&#43;</h1
+</md-button>
