@@ -20,5 +20,27 @@
         </md-button>
       </md-actions>
     </form>
+    <a ng-click="">Add Users...</a>
+      <md-content style="max-height: 100px;" layout="column" flex layout-fill>
+        <md-content>
+          <section style="position: relative;">
+            <md-subheader class="md-primary">Unread Messages</md-subheader>
+            <md-list>
+              <md-item ng-repeat="user in users">
+                 <md-item-content ng-click="addUserToCard(user, card)">
+                    <div class="md-tile-left">
+                      <img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" >
+                    </div>
+                    <div class="md-tile-content">
+                      {{user.name}}
+                       <span class="glyphicon glyphicon-ok"></span>
+                    </div>
+                  </md-item-content>
+                  <md-divider ng-if="!$last"></md-divider>
+              </md-item>
+            </md-list>
+          </section>
+        </md-content>
+      </md-content>
   </md-content
 </md-dialog>
