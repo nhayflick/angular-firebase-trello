@@ -1,10 +1,20 @@
 <md-dialog>
+  <!-- Toolbar Header -->
   <md-toolbar>
-    <div class="md-toolbar-tools" layout="row">
-      <div flex></div><h4 >Edit Card</h4><div flex></div>
+    <div class="md-toolbar-tools" layout="row" layout-align="space-around">
+      <div flex>
+        <md-button ng-if="modal.editUsers" ng-click="modal.editUsers = !modal.editUsers">
+          <i class="fa fa-chevron-left"></i>
+        </md-button>
+      </div>
+      <h4 ng-if="!modal.editUsers">Edit Card</h4>
+      <h4 ng-if="modal.editUsers">Users on Card</h4>
+      <div flex>
+      </div>
     </div>
   </md-toolbar>
-  <md-content>
+  <!-- Edit Card -->
+  <md-content ng-if="!modal.editUsers">
      <form ng-submit="updateCard(card.list)">
       <md-input-container>
         <label>Item</label>
@@ -20,27 +30,32 @@
         </md-button>
       </md-actions>
     </form>
-    <a ng-click="">Add Users...</a>
-      <md-content style="max-height: 100px;" layout="column" flex layout-fill>
-        <md-content>
-          <section style="position: relative;">
-            <md-subheader class="md-primary">Unread Messages</md-subheader>
-            <md-list>
-              <md-item ng-repeat="user in users">
-                 <md-item-content ng-click="addUserToCard(user, card)">
-                    <div class="md-tile-left">
-                      <img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" >
-                    </div>
-                    <div class="md-tile-content">
-                      {{user.name}}
-                       <span class="glyphicon glyphicon-ok"></span>
-                    </div>
-                  </md-item-content>
-                  <md-divider ng-if="!$last"></md-divider>
-              </md-item>
-            </md-list>
-          </section>
-        </md-content>
-      </md-content>
-  </md-content
+    <div style="max-width: 210px;" layout layout-padding ng-click="modal.editUsers = !modal.editUsers">
+      <img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" ng-repeat="user in card.users|limitTo:3" style="margin: 5px 2.5px;">
+      <md-button aria-label="Add Users">
+        <i class="fa fa-users"></i> <i class="fa fa-plus"></i>
+      </md-button>
+    </div>
+  </md-content>
+  <!-- Edit Users on Card -->
+  <md-content style="height: 100px;" ng-if="modal.editUsers">
+    <section>
+      <md-list layout="column">
+        <md-item ng-repeat="user in users">
+           <md-item-content ng-click="addUserToCard(user, card)">
+              <div class="md-tile-left">
+                <img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" >
+              </div>
+              <div class="md-tile-content">
+                {{user.name}}
+                 <span class="glyphicon glyphicon-ok"></span>
+              </div>
+              <md-button ng-if="userIsOnCard(user, card)">
+              </md-button>
+            </md-item-content>
+            <md-divider ng-if="!$last"></md-divider>
+        </md-item>
+      </md-list>
+    </section>
+  </md-content>
 </md-dialog>

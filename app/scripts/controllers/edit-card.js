@@ -12,6 +12,7 @@ app.controller('EditCardCtrl', function ($scope, $mdDialog, $firebase, FIREBASE_
     var list = list;
     $scope.card = card;
     $scope.users = User.all();
+    $scope.modal = {editUsers: false};
       // Create a task card and add it to a list
     $scope.updateCard = function () {
       list.cards.$save(card)

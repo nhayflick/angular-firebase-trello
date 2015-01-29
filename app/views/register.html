@@ -1,16 +1,21 @@
-<div>
+<section layout="column" layout-fill layout-align="space-around center"> 
   <h2>Register</h2>
   <p class="alert alert-error" ng-show="error">{{error}}</p>
   <form ng-submit="register()">
-    <div class="form-group">
-      <input type="text" ng-model="user.name" placeholder="name" class="form-control">
-    </div>
-    <div class="form-group">
-      <input type="text" ng-model="user.email" placeholder="email address" class="form-control">
-    </div>
-    <div class="form-group">
-      <input type="password" ng-model="user.password" placeholder="password" class="form-control">
-    </div>
-    <input type="submit" value="Submit" class="btn btn-primary">
+    <md-input-container>
+      <label>Name</label>
+      <input type="text" ng-model="user.name" class="form-control">
+    </md-input-container>
+    <md-input-container>
+      <label>Email</label>
+      <input type="text" ng-model="user.email" class="form-control">
+    </md-input-container>
+    <md-input-container>
+      <label>Password</label>
+      <input type="password" ng-model="user.password" class="form-control">
+    </md-input-container>
+    <md-button type="submit" class="btn btn-primary">
+      Submit
+    </md-button>
   </form>
-</div>
+</section>

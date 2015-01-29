@@ -8,20 +8,29 @@
  * Controller of the angularFirebaseTrelloApp
  */
 app.controller('ShowBoardCtrl', function (
-	$scope, 
+	$scope,
+  $rootScope,
 	$routeParams,
 	$mdDialog,
-	$firebase, 
+	$firebase,
 	FIREBASE_URL,
 	Board, 
 	List, 
 	Card, 
 	Authenticate, 
-	User
+	User,
+	user
 ) {
+	$rootScope.user = user;
+  console.log(user.email);
 	$scope.board = Board.get($routeParams.boardId);
 	$scope.users = User.all();
+	$scope.board.loadingLists = true;
 	$scope.lists = Board.lists($routeParams.boardId);
+	$scope.lists.$loaded()
+		.then(function () {
+			$scope.board.loadingLists = false;
+		})
 	$scope.draggableLists = {};
 	var startIndex = 0;
 	var card;
@@ -64,26 +73,31 @@ app.controller('ShowBoardCtrl', function (
 	};
 
 	$scope.lists.$watch(function(notification){
-		if (notification.event === 'child_added') {
-			// Lookup list in FireBase array by key
-			var list = $scope.lists.$getRecord(notification.key);
-			// Fetch cards object from backend by ID
-			list.cards = List.cards(list.$id);
-			$scope.draggableLists[list.$id] = angular.copy(list);
-			$scope.draggableLists[list.$id]['cards'] = [];
-			(function(list) {
-					list.cards.$watch(function (notification) {
-						if (notification.event === 'child_added') {
-							var card = list.cards.$getRecord(notification.key);
-								// Fetch user object from backend by ID
-							card.users = Card.users(card.$id);
-							// Gotta work on fixing the card placement
-							// $scope.draggableLists[list.$id].cards.splice(parseInt(card.$priority), 0, card);
-							$scope.draggableLists[list.$id].cards.push(card);
-						}
-					});
-			})(list);
-		}
+		if (notification.event !== 'child_added') return false;
+		// Lookup list in FireBase array by key
+		var list = $scope.lists.$getRecord(notification.key);
+		list.loadingCards = true;
+		// Fetch cards object from backend by ID
+		list.cards = List.cards(list.$id)
+		list.cards.$loaded()
+			.then(function() {
+				list.loadingCards = false;
+			});
+		$scope.draggableLists[list.$id] = angular.copy(list);
+		$scope.draggableLists[list.$id]['cards'] = [];
+		(function(list) {
+				list.cards.$watch(function (notification) {
+					if (notification.event !== 'child_added') return false;
+					var card = list.cards.$getRecord(notification.key);
+						// Fetch user object from backend by ID
+					console.log(card.users);
+					if (!card.users) card.users = Card.users(card.$id);
+					console.log(card.users);
+					// Gotta work on fixing the card placement
+					// $scope.draggableLists[list.$id].cards.splice(parseInt(card.$priority), 0, card);
+					$scope.draggableLists[list.$id].cards.push(card);
+				});
+		})(list);
 	});
 
 	$scope.addList = function () {
@@ -127,9 +141,9 @@ app.controller('ShowBoardCtrl', function (
 		// Uniqueness validated here on backend
 		// card.users.$remove(user);
 	};
-	$scope.userIsOnCard = function (user, card) {
-		return card.users.$indexFor(user.$id) > -1;
-	};
+	// $scope.userIsOnCard = function (user, card) {
+	// 	return card.users.$indexFor(user.$id) > -1;
+	// };
 	function createCardDialog (list, $event) {
     $mdDialog.show({
       targetEvent: $event,

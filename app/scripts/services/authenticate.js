@@ -46,6 +46,7 @@ app.factory('Authenticate', function (FIREBASE_URL, $firebase, $firebaseSimpleLo
       Authenticate.user.profile = $firebase(ref.child('profile').child(Authenticate.user.uid)).$asObject();
     });
     $rootScope.$on('$firebaseSimpleLogin:logout', function() {
+      console.log("no auth");
         //create a deep, dereferenced copy of user for assignment
       angular.copy({}, Authenticate.user);
     });

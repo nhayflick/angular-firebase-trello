@@ -9,6 +9,8 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/ng-sortable/dist/ng-sortable.css" />
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <link rel="stylesheet" href="//rawgit.com/angular/bower-material/master/angular-material.css">
@@ -24,7 +26,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <md-toolbar ng-include="'views/nav.html'" class="md-default-theme"></md-toolbar>
+    <md-toolbar ng-include="'views/nav.html'" ng-controller="NavCtrl" class="md-default-theme"></md-toolbar>
     <md-content ng-view="">
     </md-content>
 
@@ -63,6 +65,7 @@
     <script src="bower_components/ng-sortable/dist/ng-sortable.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/hammerjs/hammer.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
     <!-- endbower -->
     <script src="//rawgit.com/angular/bower-material/master/angular-material.js"></script>
     <!-- endbuild -->

@@ -31,7 +31,12 @@ var app = angular
       })
       .when('/boards/:boardId', {
         templateUrl: 'views/show-board.html',
-        controller: 'ShowBoardCtrl'
+        controller: 'ShowBoardCtrl',
+        resolve: {
+          user: function(Authenticate) {
+            return Authenticate.resolveUser();
+          }
+        }
       })
       .when('/register', {
         templateUrl: 'views/register.html',

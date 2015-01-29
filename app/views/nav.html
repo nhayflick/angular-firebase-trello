@@ -1,26 +1,18 @@
 <div class="md-toolbar-tools">
   <div layout="row" flex="" class="fill-height">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div flex>
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#/">Boards</a>
-    </div>
+    <div flex></div>
+
     <div flex></div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="md-toolbar-item md-breadcrumb">
       <span ng-show="signedIn()">
-        <p class="navbar-text">{{ user.profile.name }}</p>
       </span>
       <span ng-show="signedIn()">
         <a ng-href="#/users/{{ user.profile.uid }}">
-          <img ng-src="http://www.gravatar.com/avatar/{{ user.profile.md5_hash }}" class="user-thumbnail" />
-          {{ currentUser.name }}
+          {{ user.profile.name }}
+          <img ng-src="http://www.gravatar.com/avatar/{{ user.profile.md5_hash }}" class="user-thumbnail">
         </a>
       </span>
       <span ng-show="signedIn()">
