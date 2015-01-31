@@ -39,4 +39,12 @@ app.controller('EditCardCtrl', function ($scope, $mdDialog, $firebase, FIREBASE_
         sync.$update(content);
       });
     };
+    $scope.removeUserFromCard = function (user, card) {
+      var ref = new Firebase(FIREBASE_URL + 'user_cards/' + user.$id + '/' + card.$id);
+      var sync = $firebase(ref);
+      sync.$remove();
+      var refB = new Firebase(FIREBASE_URL + 'card/' + card.$id + '/users/' + user.$id);
+      var syncB = $firebase(refB);
+      syncB.$remove();
+    };
   });

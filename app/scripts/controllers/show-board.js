@@ -18,11 +18,8 @@ app.controller('ShowBoardCtrl', function (
 	List, 
 	Card, 
 	Authenticate, 
-	User,
-	user
+	User
 ) {
-	$rootScope.user = user;
-  console.log(user.email);
 	$scope.board = Board.get($routeParams.boardId);
 	$scope.users = User.all();
 	$scope.board.loadingLists = true;
@@ -133,13 +130,8 @@ app.controller('ShowBoardCtrl', function (
 		var sync = $firebase(ref);
 		sync.$remove();
 		var refB = new Firebase(FIREBASE_URL + 'card/' + card.$id + '/users/' + user.$id);
-		// console.log(FIREBASE_URL + 'card/' + card.$id + '/users/' + user.$id);
 		var syncB = $firebase(refB);
 		syncB.$remove();
-		// console.log(refB);
-
-		// Uniqueness validated here on backend
-		// card.users.$remove(user);
 	};
 	// $scope.userIsOnCard = function (user, card) {
 	// 	return card.users.$indexFor(user.$id) > -1;
