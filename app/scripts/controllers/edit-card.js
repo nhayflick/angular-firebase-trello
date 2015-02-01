@@ -17,7 +17,6 @@ app.controller('EditCardCtrl', function ($scope, $mdDialog, $firebase, FIREBASE_
     $scope.updateCard = function () {
       list.cards.$save(card)
         .then( function () {
-          card.users = Card.users(card.$id);
           $mdToast.show($mdToast.simple().position('bottom right').content('Card Updates: ' + $scope.card.name));
           $mdDialog.hide()
         });

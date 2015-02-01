@@ -24,6 +24,7 @@ app.controller('ShowBoardCtrl', function (
 	$scope.users = User.all();
 	$scope.board.loadingLists = true;
 	$scope.lists = Board.lists($routeParams.boardId);
+  $scope.list = {};
 	$scope.lists.$loaded()
 		.then(function () {
 			$scope.board.loadingLists = false;
@@ -36,25 +37,29 @@ app.controller('ShowBoardCtrl', function (
     	// A reference to the UI drag and drop copy of the card
     	var sortableCard = event.source.sortableScope;
     	 // A reference to the original $firebase model of the card
-    	var originalCard = event.source.itemScope.card;
+    	var card = event.source.itemScope.card;
     	// A reference to the UI drag and drop copy of the list
     	var sortableDestination = event.dest.sortableScope;
       // Remove card from source list
       $scope.lists.$getRecord(sortableCard.$parent.list.$id).cards.$remove(event.source.index);
       // Place the card in between two whole integers for now
-      originalCard.$priority = event.dest.index + .5;
+      card.$priority = event.dest.index + .5;
        // Add card to destination list
       (function (event) {
       	$scope
 	     		.lists
 	     		.$getRecord(sortableDestination.$parent.list.$id)
 	     		.cards
-	     		.$add(originalCard)
-	     		// NG-sortable has already added the sortable item  but
-	     		//it's not properly bound to the server.
+	     		.$add(card)
+	     		// NG-sortable has already added the sortable item to our UI but
+	     		// it's not properly bound to the server.
 	     		// So we wait for firebase to complete the sync, add it's own card 
 	     		// then we remove the ng-sortable version
 	     		.then(function(ref) {
+            var newCard = $firebase(ref).$asObject();
+            for (var i = card.users.length - 1; i >= 0; i--) {
+              addUserToCard(card.users[i], newCard);
+            };
 	     			event.dest.sortableScope.removeItem(event.dest.index);
 	     			// updateCardOrdering(event.dest.sortableScope.modelValue, event.dest.sortableScope.$parent.list.cards);
 	     		});
@@ -62,9 +67,9 @@ app.controller('ShowBoardCtrl', function (
     },
     orderChanged: function (event) {
     	// Iterate through UI list
-    	var originalCards = event.source.sortableScope.$parent.list.cards;
+    	var cards = event.source.sortableScope.$parent.list.cards;
     	var sortableCards = event.source.sortableScope.modelValue;
-    	updateCardOrdering(sortableCards, originalCards);
+    	updateCardOrdering(sortableCards, cards);
     },
     containment: '#board'
 	};
@@ -88,7 +93,8 @@ app.controller('ShowBoardCtrl', function (
 					var card = list.cards.$getRecord(notification.key);
 						// Fetch user object from backend by ID
 					console.log(card.users);
-					if (!card.users) card.users = Card.users(card.$id);
+					// if (!card.users) card.users = Card.users(card.$id);
+          card.users = Card.users(card.$id);
 					console.log(card.users);
 					// Gotta work on fixing the card placement
 					// $scope.draggableLists[list.$id].cards.splice(parseInt(card.$priority), 0, card);
@@ -108,7 +114,8 @@ app.controller('ShowBoardCtrl', function (
 		});
 		$scope.list.name = '';
 	};
-	$scope.addUserToCard = function (user, card) {
+	function addUserToCard (user, card) {
+    console.log(arguments);
 		var ref = new Firebase(FIREBASE_URL + '/user_cards/' + user.$id + '/' + card.$id);
 		var sync = $firebase(ref);
 		// Uniqueness validated here on backend
@@ -172,7 +179,7 @@ app.controller('ShowBoardCtrl', function (
   $scope.createCardDialog = createCardDialog;
   $scope.editCardDialog = editCardDialog;
 
-	function updateCardOrdering(sortableCards, originalCards) {
+	function updateCardOrdering(sortableCards, cards) {
 		angular.forEach(sortableCards, function(value, index) {
       // Reorder items on backend by updating priority to match array index
       console.log("new index: " + index)
@@ -181,7 +188,7 @@ app.controller('ShowBoardCtrl', function (
 	      value.$priority = index;
 	      // Step up and back down the scope chain to find the firebase
 	      // collection associated with cards.
-	      originalCards.$save(value);
+	      cards.$save(value);
 	    }
     });
 	}
