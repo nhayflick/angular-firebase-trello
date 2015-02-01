@@ -18,7 +18,6 @@ angular.module('angularFirebaseTrelloApp')
         });
     };
     $scope.deleteBoard = function (board) {
-      console.log(board);
       Board.delete(board).then(function (ref) {
         $location.path('/');
       });
