@@ -7,7 +7,7 @@
  * # authenticate
  * Factory in the angularFirebaseTrelloApp.
  */
-app.factory('Authenticate', function (FIREBASE_URL, $firebase, $firebaseSimpleLogin, $rootScope) {
+app.factory('Authenticate', function (FIREBASE_URL, $firebase, $firebaseSimpleLogin, $rootScope, $mdToast) {
     var ref = new Firebase(FIREBASE_URL);
     var authenticate = $firebaseSimpleLogin(ref);
 
@@ -35,6 +35,13 @@ app.factory('Authenticate', function (FIREBASE_URL, $firebase, $firebaseSimpleLo
         };
         var profileRef = $firebase(ref.child('profile'));
         return profileRef.$set(user.uid, profile);
+      },
+      checkForLogin: function (withToast) {
+        if (!this.signedIn()) {
+          if (withToast) $mdToast.show($mdToast.simple().position('bottom right').content('You must be logged in to do that.'));
+          return true;
+        }
+        return false;
       },
       user: {}
     };

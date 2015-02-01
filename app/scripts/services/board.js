@@ -7,7 +7,7 @@
  * # board
  * Factory in the angularFirebaseTrelloApp.
  */
-app.factory('Board', function ($firebase, FIREBASE_URL) {
+app.factory('Board', function ($firebase, $mdToast, Authenticate, FIREBASE_URL) {
 	var ref = new Firebase(FIREBASE_URL);
 	var boards = $firebase(ref.child('boards')).$asArray();
 	var Board = {
@@ -27,7 +27,15 @@ app.factory('Board', function ($firebase, FIREBASE_URL) {
 		lists: function (boardId) {
 			// Access a synced array representing a collection of Firebase objects
 			return $firebase(ref.child('lists').child(boardId)).$asArray();
-		}
+		},
+		// Only allow creator to make changes on a locked board
+	  shouldReject: function (board, withToast) {
+	    if (board.locked && Authenticate.user.uid === board.creator_uid) {
+	      if (withToast) $mdToast.show($mdToast.simple().position('bottom right').content('This Board is locked. Only it\'s owner can make edits.'));
+	      return true;
+	    }
+	    return false;
+	  }
 	};
 	return Board;
 });

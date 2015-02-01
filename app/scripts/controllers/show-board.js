@@ -65,7 +65,7 @@ app.controller('ShowBoardCtrl', function (
 		$scope.list.name = '';
 	};
   $scope.createCardDialog = function (list, $event) {
-    if ($scope.shouldReject(true)) return false;
+    if (Board.shouldReject($scope.board, true)) return false;
     $mdDialog.show({
       targetEvent: $event,
       templateUrl: 'views/create-card.html',
@@ -77,7 +77,7 @@ app.controller('ShowBoardCtrl', function (
     });
   };
   $scope.editCardDialog = function (list, card, $event) {
-    if ($scope.shouldReject(true)) return false;
+    if (Board.shouldReject($scope.board, true)) return false;
     $mdDialog.show({
       targetEvent: $event,
       templateUrl: 'views/edit-card.html',
@@ -90,7 +90,7 @@ app.controller('ShowBoardCtrl', function (
     });
   };
   $scope.editBoardDialog = function ($event) {
-    if ($scope.shouldReject(true)) return false;
+    if (Board.shouldReject($scope.board, true)) return false;
     $mdDialog.show({
       targetEvent: $event,
       templateUrl: 'views/edit-board.html',
@@ -140,7 +140,6 @@ app.controller('ShowBoardCtrl', function (
   }
 
 	function addUserToCard (user, card) {
-    console.log(arguments);
 		var ref = new Firebase(FIREBASE_URL + '/user_cards/' + user.$id + '/' + card.$id);
 		var sync = $firebase(ref);
 		// Uniqueness validated here on backend
@@ -197,12 +196,7 @@ app.controller('ShowBoardCtrl', function (
     })(list);
   }
 
-  // Only allow creator to make changes on a locked board
-  $scope.shouldReject =  function (withToast) {
-    if ($scope.board.locked && Authenticate.user.uid === $scope.board.creator_uid) {
-      if (withToast) $mdToast.show($mdToast.simple().position('bottom right').content('This Board is locked. Only it\'s owner can make edits.'));
-      return true;
-    }
-    return false;
+  $scope.shouldReject = function (toast) {
+    Board.shouldReject($scope.board, toast);
   }
 });

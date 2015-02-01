@@ -1,8 +1,0 @@
-{
-  "boards": {
-    "test": {
-      "name": "test board",
-      "description": "first test board"
-    }
-  }
-}

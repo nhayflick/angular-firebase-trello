@@ -15,6 +15,7 @@ app.controller('IndexBoardsCtrl', function ($scope, $location, Board, Authentica
 		description: ''
 	};
 	$scope.addBoard = function () {
+		if (Authenticate.checkForLogin(true)) return false;
 		$scope.board.creator = $scope.user.profile.name;
 		$scope.board.creatorUID = $scope.user.uid;
 		Board.create($scope.board).then(function (ref) {
