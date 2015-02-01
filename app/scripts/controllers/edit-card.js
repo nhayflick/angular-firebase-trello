@@ -7,7 +7,6 @@
  * # EditCardCtrl
  * Controller of the angularFirebaseTrelloApp
  */
-'use strict';
 app.controller('EditCardCtrl', function ($scope, $mdDialog, $firebase, FIREBASE_URL, $mdToast, Card, User, card, list, lists) {
     var list = list;
     $scope.card = card;
