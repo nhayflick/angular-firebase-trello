@@ -11,24 +11,33 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="md-toolbar-item md-breadcrumb">
-      <span ng-show="signedIn()">
-      </span>
-      <span ng-show="signedIn()">
-        <a ng-href="#/users/{{ user.profile.uid }}">
-          {{ user.profile.name }}
-          <img ng-src="http://www.gravatar.com/avatar/{{ user.profile.md5_hash }}" class="user-thumbnail">
-        </a>
-      </span>
-      <span ng-show="signedIn()">
-        <a href="#" ng-click="logout()">Logout</a>
-      </span>
-      <span ng-hide="signedIn()">
-        <a href="#/login">Login</a>
-      </span>
-      <span ng-hide="signedIn()">
-        <a href="#/register">Register</a>
-      </span>
-      </div>
-    </div><!-- /.navbar-collapse -->
+      <h6>
+        <span ng-show="signedIn()">
+        </span>
+        <span ng-show="signedIn()">
+          <a ng-href="#/users/{{ user.profile.uid }}">
+            <img ng-src="http://www.gravatar.com/avatar/{{ user.profile.md5_hash }}" class="user-thumbnail">
+          </a>
+        </span>
+      <!--   <span ng-show="signedIn()" hide-sm>
+            {{ user.profile.name }}
+          </a>
+        </span> -->
+        <span ng-hide="signedIn()">
+          <a href="#/login">Login</a>
+        </span>
+        <span>
+            &nbsp;
+        </span>
+        <span ng-show="signedIn()">
+          <md-button class="" ng-click="logout()">
+            Log Out
+          </md-button>
+        </span>
+        <span ng-hide="signedIn()">
+          <a href="#/register">Register</a>
+        </span>
+      </h6>
+    </div>
   </div>
 </div>

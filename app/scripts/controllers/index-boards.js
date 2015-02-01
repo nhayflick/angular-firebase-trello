@@ -24,4 +24,8 @@ app.controller('IndexBoardsCtrl', function ($scope, $location, Board, Authentica
 	$scope.deleteBoard = function (board) {
 		Board.delete(board);
 	};
+	$scope.gotoBoard = function (board) {
+		console.log(board);
+		$location.path('boards/' + board.$id);
+	};
 });

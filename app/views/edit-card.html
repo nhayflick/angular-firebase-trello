@@ -38,29 +38,34 @@
     </div>
   </md-content>
   <!-- Edit Users on Card -->
-  <md-content style="height: 200px;" ng-if="modal.editUsers">
+  <md-content style="height: 270px;" ng-if="modal.editUsers">
     <section>
-      <md-subheader class="md-warn">Assigned:</md-subheader>
       <md-list layout="column">
         <md-item ng-repeat="user in users | onCard:card">
-           <md-item-content >
+            <span ng-if="$first">
+              <h5 class="md-primary">Assigned:</h5>
+            </span>
+            <md-item-content >
               <div class="md-tile-left">
                 <img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" >
               </div>
               <div class="md-tile-content">
                 {{user.name}}
-                 <span class="glyphicon glyphicon-ok"></span>
               </div>
-              <md-button ng-click="removeUserFromCard(user, card)">
-                Remove
+              <md-button class="md-warn" ng-click="removeUserFromCard(user, card)">
+                <span class="fa fa-close"></span>
               </md-button>
             </md-item-content>
+            <md-divider></md-divider>
         </md-item>
       </md-list>
-      <md-subheader class="md-warn">Unassigned:</md-subheader>
       <md-list>
-        <md-item ng-repeat="user in users | onCard:card:false">
-           <md-item-content>
+        <md-item ng-repeat="user in users | onCard:card:false" class="md-primary">
+          <span ng-if="$first">
+            <br />
+            <h5 class="md-primary">All Users:</h5>
+          </span>
+           <md-item-content ng-click="addUserToCard(user, card)">
               <div class="md-tile-left">
                 <img ng-src="http://www.gravatar.com/avatar/{{ user.md5_hash }}" class="user-thumbnail" >
               </div>
@@ -68,8 +73,8 @@
                 {{user.name}}
                  <span class="glyphicon glyphicon-ok"></span>
               </div>
-              <md-button ng-click="addUserToCard(user, card)">
-                Add
+              <md-button class="md-primary">
+                <span class="fa fa-plus"></span>
               </md-button>
             </md-item-content>
             <md-divider ng-if="!$last"></md-divider>

@@ -1,12 +1,44 @@
-<h1>Boards</h1>
+<div id="board" layout="column" flex>
+  <div flex="100" layout-padding>
+    <h1>Manage Your Boards:</h1>
+  </div>
 
-<form ng-submit="addBoard()">
-  <input type="text" ng-model="board.title" />
-  <input type="text" ng-model="board.description" />
-  <input type="submit" value="Add Board" />
-</form>
 
-<div ng-repeat="board in boards">
-  <a href="#/boards/{{board.$id}}">{{board.title}}</a>
-  <p>{{board.description}}</p><a ng-click="deleteBoard(board)">Delete</a>
+  <div layout="row" flex="100">
+    <md-card ng-repeat="board in boards" flex="25" ng-click="gotoBoard(board)">
+      <md-toolbar>
+          <div class="md-toolbar-tools">
+           <a>{{board.title}}</a>
+        </div>
+      </md-toolbar>
+      <md-content layout-padding>
+        <p>{{board.description}}</p>
+        <md-button class="md-warn" ng-click="deleteBoard(board)">
+          Delete
+        </md-button>
+      </md-content>
+    </md-card>
+    <md-whiteframe class="md-whiteframe-z1" flex="25" layout-margin >
+      <md-toolbar class="md-accent">
+        <div class="md-toolbar-tools">
+          New Board
+        </div>
+      </md-toolbar>
+      <md-content layout-padding>
+      <form ng-submit="addBoard()">
+        <md-input-container>
+          <label>Title</label>
+          <input type="text" ng-model="board.title" >
+        </md-input-container>
+        <md-input-container>
+          <label>Description</label>
+          <input type="text" ng-model="board.description" >
+        </md-input-container>
+        <md-button class="md-primary md-raised" type="submit">
+          Add Board
+        </md-button>
+      </form>
+    </md-content>
+  </md-whiteframe>
+  </div>
 </div>

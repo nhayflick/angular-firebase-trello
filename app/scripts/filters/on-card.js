@@ -13,6 +13,7 @@ app.filter('onCard', function () {
       var present = typeof present !== 'undefined' ? present : true;
       return users.filter(function (user) {
         var matches = 0;
+        if (!card.users) return  present ? false: true;
         for (var j = card.users.length - 1; j >= 0; j--) {
           if (card.users[j].$id == user.$id) {
             matches++;

@@ -1,5 +1,11 @@
-<h1>{{board.title}}</h1>
-<p>{{board.description}}</p>
+<div layout-fill layout-align="space-around center" layout-padding layout-margin ng-click="editBoardDialog()">
+  <h2>
+    {{board.title}}
+    <span class="fa fa-lock" ng-if="board.locked"></span>
+    <span class="fa fa-unlock" ng-if="!board.locked"></span>
+  </h2>
+  <p>{{board.description}}</p>
+</div>
 
 <!-- Begin Displaying Lists -->
 <div id="board" layout="row" flex>
@@ -10,7 +16,7 @@
           <span class="md-flex">{{list.name}}</span>
         </div>
       </md-toolbar>
-      <md-content style="min-height: 30px;" layout-padding data-as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container">
+      <md-content style="min-height: 30px;" layout-padding data-as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container" is-disabled="shouldReject()">
         <!-- Begin Displaying Cards -->
         <md-card flex="100" ng-repeat="card in draggableLists[list.$id].cards" data-as-sortable-item>
           <div data-as-sortable-item-handle ng-click="editCardDialog(list, card)">

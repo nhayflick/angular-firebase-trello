@@ -1,0 +1,36 @@
+<md-dialog>
+  <!-- Toolbar Header -->
+  <md-toolbar>
+    <div class="md-toolbar-tools" layout="row" layout-align="space-around">
+      <div flex>
+      </div>
+      <h4>Edit Board</h4>
+      <div flex>
+      </div>
+    </div>
+  </md-toolbar>
+  <!-- Edit Board -->
+  <md-content>
+    <form ng-submit="updateBoard(board)" >
+      <md-input-container>
+        <label>Item</label>
+        <input type="text" class="form-control" ng-model="board.title">
+      </md-input-container>
+      <md-input-container>
+        <label>Description</label>
+        <input type="text" class="form-control" ng-model="board.description">
+      </md-input-container>
+      <div layout="row" layout-align="start center">
+        <span class="fa fa-unlock"></span>
+        <md-switch ng-model="board.locked" aria-label="Lock Board">
+        </md-switch>
+        <span class="fa fa-lock"></span>
+      </div>
+      <md-actions layout="row">
+        <md-button type="submit" class="md-raised md-primary" flex="100">
+          Save
+        </md-button>
+      </md-actions>
+    </form>
+  </md-content>
+</md-dialog>
