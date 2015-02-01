@@ -4,8 +4,8 @@
   </div>
 
 
-  <div layout="row" flex="100">
-    <md-card ng-repeat="board in boards" flex="25" ng-click="gotoBoard(board)">
+  <div layout="row" flex layout-wrap>
+    <md-card ng-repeat="board in boards" flex-gt-md="20" flex-md="30" flex-sm="45" ng-click="gotoBoard(board)">
       <md-toolbar>
           <div class="md-toolbar-tools">
            <a>{{board.title}}</a>
@@ -15,7 +15,7 @@
         <p>{{board.description}}</p>
       </md-content>
     </md-card>
-    <md-whiteframe class="md-whiteframe-z1" flex="25" layout-margin >
+    <md-whiteframe class="md-whiteframe-z1" flex-gt-md="20" flex-md="30" flex-sm="45" layout-margin >
       <md-toolbar class="md-accent">
         <div class="md-toolbar-tools">
           New Board
