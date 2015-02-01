@@ -2,10 +2,13 @@
   <!-- Toolbar Header -->
   <md-toolbar>
     <div class="md-toolbar-tools" layout="row" layout-align="space-around">
-      <div flex>
+      <div>
       </div>
       <h4>Edit Board</h4>
-      <div flex>
+      <div>
+        <md-button class="md-warn md-raised" ng-click="deleteBoard(board)" >
+          <span class="fa fa-2x fa-trash"></span>
+      </md-button>
       </div>
     </div>
   </md-toolbar>
@@ -26,7 +29,7 @@
         </md-switch>
         <span class="fa fa-lock"></span>
       </div>
-      <md-actions layout="row">
+      <md-actions layout="row" >
         <md-button type="submit" class="md-raised md-primary" flex="100">
           Save
         </md-button>

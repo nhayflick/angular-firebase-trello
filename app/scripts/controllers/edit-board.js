@@ -8,7 +8,7 @@
  * Controller of the angularFirebaseTrelloApp
  */
 angular.module('angularFirebaseTrelloApp')
-  .controller('EditBoardCtrl', function ($scope, board, $mdToast, $mdDialog) {
+  .controller('EditBoardCtrl', function ($scope, board, $mdToast, $mdDialog, Board) {
     $scope.board = board;
     $scope.updateBoard = function () {
       board.$save()
@@ -17,4 +17,10 @@ angular.module('angularFirebaseTrelloApp')
           $mdDialog.hide()
         });
     };
+    $scope.deleteBoard = function (board) {
+      console.log(board);
+      Board.delete(board).then(function (ref) {
+        $location.path('/');
+      });
+    }; 
   });

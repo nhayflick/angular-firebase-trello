@@ -21,9 +21,6 @@ app.controller('IndexBoardsCtrl', function ($scope, $location, Board, Authentica
 			$location.path('boards/' + ref.name());
 		});
 	};
-	$scope.deleteBoard = function (board) {
-		Board.delete(board);
-	};
 	$scope.gotoBoard = function (board) {
 		console.log(board);
 		$location.path('boards/' + board.$id);
