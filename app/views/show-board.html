@@ -1,3 +1,4 @@
+<section>
 <div layout-fill layout-align="space-around center" layout-padding layout-margin ng-click="editBoardDialog()">
   <h2>
     {{board.title}}
@@ -16,10 +17,10 @@
           <span class="md-flex">{{list.name}}</span>
         </div>
       </md-toolbar>
-      <md-content style="min-height: 30px;" layout-padding data-as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container" is-disabled="shouldReject()">
+      <md-content style="min-height: 30px;" layout-padding as-sortable="dragControlListeners" ng-model="draggableLists[list.$id].cards" class="cards-container" is-disabled="shouldReject(false)">
         <!-- Begin Displaying Cards -->
-        <md-card flex="100" ng-repeat="card in draggableLists[list.$id].cards" data-as-sortable-item>
-          <div data-as-sortable-item-handle ng-click="editCardDialog(list, card)">
+        <md-card flex="100" ng-repeat="card in draggableLists[list.$id].cards" as-sortable-item>
+          <div as-sortable-item-handle ng-click="editCardDialog(list, card)">
             <h6>{{card.name}}</h6>
             <p>{{card.description}}</p>
             <div layout="row" ng-click="editCardUsersDialog(list, card)">
@@ -57,7 +58,7 @@
 <!-- End Lists -->
   <div flex-sm="100" flex-md="50" flex-lg="33" flex-gt-lg="25" ng-if="!board.loadingLists">
     <md-whiteframe class="md-whiteframe-z1" layout="column" layout-margin>
-      <md-toolbar class="md-accent">
+      <md-toolbar class="md-primary">
         <div class="md-toolbar-tools">
           <span class="md-flex">New List</span>
         </div>
@@ -82,5 +83,5 @@
 </section>
 <!-- End Loading Indicator -->
 <md-button class="md-primary md-fab md-fab-bottom-right" style="position: fixed;" ng-click="createCardDialog()">
-  <h1 style="margin: 0; margin-top: -8px;">&#43;</h1
+  <h1 style="margin: 0; margin-top: -8px;">&#43;</h1>
 </md-button>

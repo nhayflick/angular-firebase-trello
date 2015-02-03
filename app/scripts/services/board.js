@@ -30,7 +30,7 @@ app.factory('Board', function ($firebase, $mdToast, Authenticate, FIREBASE_URL) 
 		},
 		// Only allow creator to make changes on a locked board
 	  shouldReject: function (board, withToast) {
-	    if (board.locked && Authenticate.user.uid === board.creator_uid) {
+	    if (board.locked && Authenticate.user.uid !== board.creatorUID) {
 	      if (withToast) $mdToast.show($mdToast.simple().position('bottom right').content('This Board is locked. Only it\'s owner can make edits.'));
 	      return true;
 	    }

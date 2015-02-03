@@ -7,7 +7,7 @@
  * # IndexboardsCtrl
  * Controller of the angularFirebaseTrelloApp
  */
-app.controller('IndexBoardsCtrl', function ($scope, $location, Board, Authenticate) {
+app.controller('IndexBoardsCtrl', function ($scope, $location, $rootScope, Board, Authenticate) {
 	$scope.user = Authenticate.user;
 	$scope.boards = Board.all;
 	$scope.board = {
@@ -23,7 +23,7 @@ app.controller('IndexBoardsCtrl', function ($scope, $location, Board, Authentica
 		});
 	};
 	$scope.gotoBoard = function (board) {
-		console.log(board);
 		$location.path('boards/' + board.$id);
 	};
+  $rootScope.currentTheme = 'purplePinkTheme';
 });

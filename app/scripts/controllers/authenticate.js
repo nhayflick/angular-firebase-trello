@@ -7,7 +7,7 @@
  * # AuthenticateCtrl
  * Controller of the angularFirebaseTrelloApp
  */
-app.controller('AuthenticateCtrl', function ($scope, $location, user) {
+app.controller('AuthenticateCtrl', function ($scope, $location, Authenticate, user) {
     if (user) {
       $location.path('/');
     }

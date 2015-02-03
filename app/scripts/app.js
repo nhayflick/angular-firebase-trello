@@ -23,7 +23,7 @@ var app = angular
     'ui.sortable',
     'firebase'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $mdThemingProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/index-boards.html',
@@ -59,4 +59,10 @@ var app = angular
       .otherwise({
         redirectTo: '/'
       });
+
+      // Primary Theme
+      $mdThemingProvider.theme('default')
+       .primaryPalette('cyan')
+        .accentPalette('green');
+
   }).constant('FIREBASE_URL', 'https://fiery-heat-4015.firebaseio.com/');

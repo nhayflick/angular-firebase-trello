@@ -1,12 +1,13 @@
 <div id="board" layout="column" flex>
-  <div flex="100" layout-padding>
-    <h1>Manage Your Boards:</h1>
+  <div layout-fill layout-align="space-around center" layout-padding layout-margin>
+    <h1>Projects</h1>
+    <p>Manage &amp; Create New Project Boards Here.</p>
   </div>
 
 
   <div layout="row" flex layout-wrap>
     <md-card ng-repeat="board in boards" flex-gt-md="20" flex-md="30" flex-sm="45" ng-click="gotoBoard(board)">
-      <md-toolbar>
+      <md-toolbar class="md-accent">
           <div class="md-toolbar-tools">
            <a>{{board.title}}</a>
         </div>
@@ -16,7 +17,7 @@
       </md-content>
     </md-card>
     <md-whiteframe class="md-whiteframe-z1" flex-gt-md="20" flex-md="30" flex-sm="45" layout-margin >
-      <md-toolbar class="md-accent">
+      <md-toolbar class="md-primary">
         <div class="md-toolbar-tools">
           New Board
         </div>

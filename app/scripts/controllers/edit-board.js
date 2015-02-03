@@ -22,4 +22,5 @@ angular.module('angularFirebaseTrelloApp')
         $location.path('/');
       });
     }; 
+    $scope.materialColors = MATERIAL_COLORS;
   });

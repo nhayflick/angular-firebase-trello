@@ -27,7 +27,6 @@ app.controller('ShowBoardCtrl', function (
 	$scope.lists = Board.lists($routeParams.boardId);
   $scope.list = {};
 	$scope.draggableLists = {};
-	
 
   var startIndex = 0;
 	var card;
@@ -197,6 +196,6 @@ app.controller('ShowBoardCtrl', function (
   }
 
   $scope.shouldReject = function (toast) {
-    Board.shouldReject($scope.board, toast);
+    return Board.shouldReject($scope.board, toast);
   }
 });

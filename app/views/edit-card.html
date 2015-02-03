@@ -52,9 +52,8 @@
               <div class="md-tile-content">
                 {{user.name}}
               </div>
-              <md-button class="md-warn" ng-click="removeUserFromCard(user, card)">
-                <span class="fa fa-close"></span>
-              </md-button>
+              <md-checkbox ng-model="true" ng-click="removeUserFromCard(user, card)">
+              </md-checkbox>
             </md-item-content>
             <md-divider></md-divider>
         </md-item>
@@ -73,9 +72,8 @@
                 {{user.name}}
                  <span class="glyphicon glyphicon-ok"></span>
               </div>
-              <md-button class="md-primary">
-                <span class="fa fa-plus"></span>
-              </md-button>
+              <md-checkbox value="false" ng-click="addUserToCard(user, card)">
+              </md-checkbox>
             </md-item-content>
             <md-divider ng-if="!$last"></md-divider>
         </md-item>
