@@ -62,7 +62,7 @@ var app = angular
 
       // Primary Theme
       $mdThemingProvider.theme('default')
-       .primaryPalette('cyan')
-        .accentPalette('green');
+       .primaryPalette('indigo')
+        .accentPalette('orange');
 
   }).constant('FIREBASE_URL', 'https://fiery-heat-4015.firebaseio.com/');
